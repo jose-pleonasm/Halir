@@ -1,0 +1,19 @@
+{
+	"arrowParens": "always",
+	"printWidth": 140,
+	"proseWrap": "never",
+	"semi": true,
+	"singleQuote": true,
+	"trailingComma": "none",
+	"tabWidth": 4,
+	"useTabs": true,
+	"overrides": [
+		{
+			"files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
+			"options": {
+				"trailingComma": "all"
+			}
+		}
+	],
+	"endOfLine": "auto"
+}
