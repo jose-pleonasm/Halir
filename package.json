@@ -16,9 +16,9 @@
     "node": ">=12.0.0"
   },
   "type": "module",
-  "main": "src/index.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "node ./src/cli/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

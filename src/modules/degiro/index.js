@@ -1,1 +1,1 @@
-export * from './transform.js';
+export { transform } from './transform.js';

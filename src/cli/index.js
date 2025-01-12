@@ -1,5 +1,5 @@
-import { getConfig } from './config/getConfig.js';
-import { main } from './main.js';
+import { getConfig } from './getConfig.js';
+import { main } from '../main.js';
 
 main({
 	profile: 'degiro',

@@ -1,3 +1,6 @@
+/**
+ * @returns {Config}
+ */
 export const getConfig = async () => {
 	const baseConfig = {
 		lang: process.env.LANG || 'en',

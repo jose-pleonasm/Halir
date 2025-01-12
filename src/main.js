@@ -23,6 +23,10 @@ const validateConfig = (config) => {
 	// TODO
 };
 
+/**
+ * @param {Setup} setup
+ * @returns {Promise<void>}
+ */
 export const main = async (setup) => {
 	validateSetup(setup);
 	const { profile, inputFile, outputFile, getConfig } = setup;
@@ -34,6 +38,6 @@ export const main = async (setup) => {
 	const input = await fs.readFile(inputFile, { encoding: fileEncoding });
 	const module = await import(`./modules/${profile}/index.js`);
 
-	const output = await module.transform(input, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
-	return fs.writeFile(outputFile, JSON.stringify(output));
+	const hston = await module.transform(input, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
+	return fs.writeFile(outputFile, JSON.stringify(hston));
 };
