@@ -27,7 +27,7 @@ const validateSetup = (setup) => {
 };
 
 const validateConfig = (config) => {
-	const { uuidNamespace } = config;
+	const { uuidNamespace, lineSeparator, columnSeparator, timezone, dateFormat } = config;
 	if (!basicCheck('string', uuidNamespace)) {
 		throw new InvalidSetupError('config.uuidNamespace');
 	}
@@ -36,6 +36,12 @@ const validateConfig = (config) => {
 	}
 	if (!basicCheck('string', columnSeparator)) {
 		throw new InvalidSetupError('config.columnSeparator');
+	}
+	if (!basicCheck('string', timezone)) {
+		throw new InvalidSetupError('config.timezone');
+	}
+	if (!basicCheck('string', dateFormat)) {
+		throw new InvalidSetupError('config.dateFormat');
 	}
 };
 
