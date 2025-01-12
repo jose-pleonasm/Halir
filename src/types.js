@@ -13,7 +13,7 @@
  * @property {'degiro'} profile
  * @property {string} inputFile
  * @property {string} outputFile
- * @property {Function} getConfig
+ * @property {Config} config
  */
 
 /**
