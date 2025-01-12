@@ -4,18 +4,22 @@ import { InvalidInputError } from './error/InvalidInputError.js';
 
 export const SUPPORTED_PROFILES = ['degiro'];
 
+function basicCheck(type, value) {
+	return typeof value === type && !!value;
+}
+
 const validateSetup = (setup) => {
 	const { profile, inputFile, outputFile, config } = setup;
 	if (!SUPPORTED_PROFILES.includes(profile)) {
 		throw new InvalidSetupError('profile');
 	}
-	if (typeof inputFile !== 'string' || !inputFile) {
+	if (!basicCheck('string', inputFile)) {
 		throw new InvalidSetupError('inputFile');
 	}
-	if (typeof outputFile !== 'string' || !outputFile) {
+	if (!basicCheck('string', outputFile)) {
 		throw new InvalidSetupError('outputFile');
 	}
-	if (typeof config !== 'object' || !config) {
+	if (!basicCheck('object', config)) {
 		throw new InvalidSetupError('config');
 	}
 
@@ -24,10 +28,15 @@ const validateSetup = (setup) => {
 
 const validateConfig = (config) => {
 	const { uuidNamespace } = config;
-	if (typeof uuidNamespace !== 'string' || !uuidNamespace) {
+	if (!basicCheck('string', uuidNamespace)) {
 		throw new InvalidSetupError('config.uuidNamespace');
 	}
-	// TODO
+	if (!basicCheck('string', lineSeparator)) {
+		throw new InvalidSetupError('config.lineSeparator');
+	}
+	if (!basicCheck('string', columnSeparator)) {
+		throw new InvalidSetupError('config.columnSeparator');
+	}
 };
 
 /**
@@ -37,7 +46,7 @@ const validateConfig = (config) => {
 export const main = async (setup) => {
 	validateSetup(setup);
 	const { profile, inputFile, outputFile, config } = setup;
-	const { fileEncoding, lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat } = config;
+	const { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat, fileEncoding } = config;
 
 	const input = await fs.readFile(inputFile, { encoding: fileEncoding });
 	if (!input) {

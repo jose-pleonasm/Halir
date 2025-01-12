@@ -1,11 +1,11 @@
 /**
  * @typedef {Object} Config
- * @property {string} fileEncoding
  * @property {string} lineSeparator
  * @property {string} columnSeparator
  * @property {string} uuidNamespace
  * @property {string} timezone
  * @property {string} dateFormat
+ * @property {string?} fileEncoding
  */
 
 /**
