@@ -11,8 +11,6 @@
 /**
  * @typedef {Object} Setup
  * @property {'degiro'} profile
- * @property {string} inputFile
- * @property {string} outputFile
  * @property {Config} config
  */
 
