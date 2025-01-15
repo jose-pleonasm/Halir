@@ -3,25 +3,18 @@ import { InvalidSetupError } from '../error/InvalidSetupError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
 
 /**
- * @typedef {Object} FileCoverSetup
- * @property {Function} process
- * @property {Function?} transformInput
- * @property {Function?} transformOutput
- */
-
-/**
- * @param {FileCoverSetup} setup
+ * @param {Function} process
  */
 export const createFileCover =
-	({ process, transformInput = (input) => input, transformOutput = (output) => output }) =>
+	(process) =>
 	/**
-	 * @param {Setup} setup
 	 * @param {string} fileEncoding
 	 * @param {string} inputFile
 	 * @param {string} outputFile
+	 * @param {any} args
 	 * @returns {Promise<void>}
 	 */
-	async (setup, fileEncoding, inputFile, outputFile) => {
+	async (fileEncoding, inputFile, outputFile, ...args) => {
 		if (!basicValueCheck('string', fileEncoding)) {
 			throw new InvalidSetupError('fileEncoding');
 		}
@@ -33,6 +26,6 @@ export const createFileCover =
 		}
 
 		const input = await fs.readFile(inputFile, { encoding: fileEncoding });
-		const output = await process(setup, transformInput(input));
-		return fs.writeFile(outputFile, transformOutput(output));
+		const output = await process(input, ...args);
+		return fs.writeFile(outputFile, output);
 	};
