@@ -59,8 +59,8 @@ export const main = async (setup) => {
 		throw new InvalidInputError(inputFile);
 	}
 
-	const { transform } = await import(`./modules/${profile}/index.js`);
-	const hston = await transform(input, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
+	const { csvToHstom } = await import(`./modules/${profile}/index.js`);
+	const hston = await csvToHstom(input, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
 
 	return fs.writeFile(outputFile, JSON.stringify(hston));
 };
