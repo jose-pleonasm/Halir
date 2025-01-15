@@ -1,6 +1,6 @@
 export const getSetup = async () => {
 	return {
-		columns: {
+		csvColumns: {
 			lang: 'en',
 			labels: {
 				0: 'Date',
@@ -23,6 +23,24 @@ export const getSetup = async () => {
 				17: '', // total currency
 				18: 'Order ID',
 			},
+		},
+		output: {
+			lang: 'en',
+			map: [
+				{ title: 'Date', field: 'datetime' },
+				{ title: 'Product', field: 'product' },
+				{ title: 'ISIN', field: 'isin' },
+				{ title: 'Exchange', field: 'exchangeReference' },
+				{ title: 'Venue', field: 'venue' },
+				{ title: 'Action', field: 'action' },
+				{ title: 'Qty', field: 'quantity' },
+				{ title: 'Price', field: `${price} ${priceCurrency}` },
+				{ title: 'Local value', field: `${localValue} ${localValueCurrency}` },
+				{ title: 'Value', field: `${value} ${valueCurrency}` },
+				{ title: 'Exchange rate', field: 'exchangeRate' },
+				{ title: 'Fees', field: `${fees} ${feesCurrency}` },
+				{ title: 'Total', field: `${total} ${totalCurrency}` },
+			],
 		},
 	};
 };
