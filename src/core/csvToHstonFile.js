@@ -1,7 +1,5 @@
-import { promises as fs } from 'node:fs';
 import { csvToHston } from './csvToHston.js';
-import { InvalidSetupError } from '../error/InvalidSetupError.js';
-import { basicValueCheck } from '../utils/basicValueCheck.js';
+import { createFileCover } from '../utils/fileCover.js';
 
 /**
  * @param {Setup} setup
@@ -10,18 +8,4 @@ import { basicValueCheck } from '../utils/basicValueCheck.js';
  * @param {string} outputFile
  * @returns {Promise<void>}
  */
-export const csvToHstonFile = async (setup, fileEncoding, inputFile, outputFile) => {
-	if (!basicValueCheck('string', fileEncoding)) {
-		throw new InvalidSetupError('fileEncoding');
-	}
-	if (!basicValueCheck('string', inputFile)) {
-		throw new InvalidSetupError('inputFile');
-	}
-	if (!basicValueCheck('string', outputFile)) {
-		throw new InvalidSetupError('outputFile');
-	}
-
-	const input = await fs.readFile(inputFile, { encoding: fileEncoding });
-	const hston = await csvToHston(setup, input);
-	return fs.writeFile(outputFile, JSON.stringify(hston));
-};
+export const csvToHstonFile = createFileCover({ process: csvToHston, transformOutput: JSON.stringify });
