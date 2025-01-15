@@ -1,7 +1,7 @@
 import { getConfig } from './private/getConfig.js';
-import { csvToHstom } from '../core/csvToHstom.js';
+import { csvToHston } from '../core/csvToHston.js';
 
-csvToHstom({
+csvToHston({
 	profile: 'degiro',
 	config: getConfig(),
 	inputFile: process.argv[2],

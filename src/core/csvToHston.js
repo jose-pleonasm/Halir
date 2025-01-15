@@ -46,7 +46,7 @@ const checkConfig = (config) => {
  * @param {Setup} setup
  * @returns {Promise<void>}
  */
-export const csvToHstom = async (setup) => {
+export const csvToHston = async (setup) => {
 	checkSetup(setup);
 	const { profile, inputFile, outputFile, config } = setup;
 	const { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat, fileEncoding } = config;
@@ -57,7 +57,7 @@ export const csvToHstom = async (setup) => {
 	}
 
 	const module = await import(`../modules/${profile}/index.js`);
-	const hston = await module.csvToHstom(input, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
+	const hston = await module.csvToHston(input, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
 
 	return fs.writeFile(outputFile, JSON.stringify(hston));
 };

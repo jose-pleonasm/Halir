@@ -119,7 +119,7 @@ function makeHston(rows, options) {
  * @param {Object} options
  * @returns {HSTON}
  */
-export const csvToHstom = async (input, options) => {
+export const csvToHston = async (input, options) => {
 	const rows = parse(input, options);
 	return makeHston(rows, options);
 };
