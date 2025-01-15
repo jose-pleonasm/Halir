@@ -1,46 +1,43 @@
 import { promises as fs } from 'node:fs';
-import { InvalidSetupError } from './error/InvalidSetupError.js';
-import { InvalidInputError } from './error/InvalidInputError.js';
+import { InvalidSetupError } from '../error/InvalidSetupError.js';
+import { InvalidInputError } from '../error/InvalidInputError.js';
+import { basicValueCheck } from '../utils/basicValueCheck.js';
 
 export const SUPPORTED_PROFILES = ['degiro'];
 
-function basicCheck(type, value) {
-	return typeof value === type && !!value;
-}
-
-const validateSetup = (setup) => {
+const checkSetup = (setup) => {
 	const { profile, inputFile, outputFile, config } = setup;
 	if (!SUPPORTED_PROFILES.includes(profile)) {
 		throw new InvalidSetupError('profile');
 	}
-	if (!basicCheck('string', inputFile)) {
+	if (!basicValueCheck('string', inputFile)) {
 		throw new InvalidSetupError('inputFile');
 	}
-	if (!basicCheck('string', outputFile)) {
+	if (!basicValueCheck('string', outputFile)) {
 		throw new InvalidSetupError('outputFile');
 	}
-	if (!basicCheck('object', config)) {
+	if (!basicValueCheck('object', config)) {
 		throw new InvalidSetupError('config');
 	}
 
-	validateConfig(config);
+	checkConfig(config);
 };
 
-const validateConfig = (config) => {
+const checkConfig = (config) => {
 	const { uuidNamespace, lineSeparator, columnSeparator, timezone, dateFormat } = config;
-	if (!basicCheck('string', uuidNamespace)) {
+	if (!basicValueCheck('string', uuidNamespace)) {
 		throw new InvalidSetupError('config.uuidNamespace');
 	}
-	if (!basicCheck('string', lineSeparator)) {
+	if (!basicValueCheck('string', lineSeparator)) {
 		throw new InvalidSetupError('config.lineSeparator');
 	}
-	if (!basicCheck('string', columnSeparator)) {
+	if (!basicValueCheck('string', columnSeparator)) {
 		throw new InvalidSetupError('config.columnSeparator');
 	}
-	if (!basicCheck('string', timezone)) {
+	if (!basicValueCheck('string', timezone)) {
 		throw new InvalidSetupError('config.timezone');
 	}
-	if (!basicCheck('string', dateFormat)) {
+	if (!basicValueCheck('string', dateFormat)) {
 		throw new InvalidSetupError('config.dateFormat');
 	}
 };
@@ -49,8 +46,8 @@ const validateConfig = (config) => {
  * @param {Setup} setup
  * @returns {Promise<void>}
  */
-export const main = async (setup) => {
-	validateSetup(setup);
+export const csvToHstom = async (setup) => {
+	checkSetup(setup);
 	const { profile, inputFile, outputFile, config } = setup;
 	const { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat, fileEncoding } = config;
 
@@ -59,8 +56,8 @@ export const main = async (setup) => {
 		throw new InvalidInputError(inputFile);
 	}
 
-	const { csvToHstom } = await import(`./modules/${profile}/index.js`);
-	const hston = await csvToHstom(input, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
+	const module = await import(`../modules/${profile}/index.js`);
+	const hston = await module.csvToHstom(input, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
 
 	return fs.writeFile(outputFile, JSON.stringify(hston));
 };
