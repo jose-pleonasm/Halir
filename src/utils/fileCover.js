@@ -5,6 +5,7 @@ import { basicValueCheck } from '../utils/basicValueCheck.js';
 /**
  * @typedef {Object} FileCoverSetup
  * @property {Function} process
+ * @property {Function?} transformInput
  * @property {Function?} transformOutput
  */
 
@@ -12,7 +13,7 @@ import { basicValueCheck } from '../utils/basicValueCheck.js';
  * @param {FileCoverSetup} setup
  */
 export const createFileCover =
-	({ process, transformOutput = (output) => output }) =>
+	({ process, transformInput = (input) => input, transformOutput = (output) => output }) =>
 	/**
 	 * @param {Setup} setup
 	 * @param {string} fileEncoding
@@ -32,6 +33,6 @@ export const createFileCover =
 		}
 
 		const input = await fs.readFile(inputFile, { encoding: fileEncoding });
-		const output = await process(setup, input);
+		const output = await process(setup, transformInput(input));
 		return fs.writeFile(outputFile, transformOutput(output));
 	};
