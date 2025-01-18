@@ -1,4 +1,9 @@
 /**
+ * @private
+ * @typedef {string[]} Row
+ */
+
+/**
  * @typedef {Object} Config
  * @property {string} lineSeparator
  * @property {string} columnSeparator
@@ -17,6 +22,7 @@
 /**
  * @typedef {Object}  HSTONItem
  * @property {string} id UUID
+ * @property {string} action
  * @property {string} datetime Date as a string value in ISO format.
  * @property {string} product
  * @property {string} isin

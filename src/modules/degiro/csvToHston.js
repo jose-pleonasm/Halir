@@ -1,46 +1,8 @@
 import { v5 } from 'uuid';
-
-/**
- * @private
- * @typedef {string[]} Row
- */
-
-const makeParser = ({ separator }) =>
-	function parser(input) {
-		return input.split(separator);
-	};
-
-/**
- * @param {Row} row
- * @returns {boolean}
- */
-function hasValues(row) {
-	return !!row.filter((cells) => cells.length).length;
-}
-
-/**
- * @param {Row} row
- * @param {Object} options
- * @returns {string}
- */
-function getDateValue(row, { timezone, dateFormat }) {
-	const date =
-		dateFormat === 'DD-MM-YYYY'
-			? (() => {
-					const [day, month, year] = row[0].split('-');
-					return `${year}-${month}-${day}`;
-				})()
-			: row[0];
-	return `${date} ${row[1]} ${timezone}`; // TODO: detekci casove zony podle obdobi
-}
-
-/**
- * @param {string | null} value
- * @returns {number | null}
- */
-function getNumberOrNull(value) {
-	return value != null && value !== '' ? parseFloat(value) : null; // TODO: co delat s NaN?
-}
+import { createSimpleParser } from '../../utils/simpleParser.js';
+import { getDateValue } from '../../utils/getDateValue.js';
+import { hasRowValues } from '../../utils/hasRowValues.js';
+import { getNumberOrNull } from '../../utils/getNumberOrNull.js';
 
 /**
  * @param {Row} row
@@ -65,14 +27,14 @@ function getAction(row) {
  */
 function parse(input, options) {
 	const { lineSeparator, columnSeparator } = options;
-	const makeRows = makeParser({ separator: lineSeparator });
-	const makeCells = makeParser({ separator: columnSeparator });
+	const makeRows = createSimpleParser(lineSeparator);
+	const makeCells = createSimpleParser(columnSeparator);
 	const [_head, ...rawRows] = makeRows(input);
 	const rows = rawRows.map(makeCells);
-	return rows.filter(hasValues);
+	return rows.filter(hasRowValues);
 }
 
-const makeTransformer = ({ uuidNamespace, timezone, dateFormat }) =>
+const createTransformer = ({ uuidNamespace, timezone, dateFormat }) =>
 	/**
 	 * @param {Row} row
 	 * @returns {HSTONItem}
@@ -83,7 +45,7 @@ const makeTransformer = ({ uuidNamespace, timezone, dateFormat }) =>
 		return {
 			id,
 			action: getAction(row),
-			datetime: new Date(getDateValue(row, { timezone, dateFormat })).toISOString(),
+			datetime: new Date(getDateValue({ timezone, dateFormat }, row[0], row[1])).toISOString(),
 			product: row[2],
 			isin: row[3],
 			exchangeReference: row[4],
@@ -110,7 +72,7 @@ const makeTransformer = ({ uuidNamespace, timezone, dateFormat }) =>
  * @returns {HSTON}
  */
 function makeHston(rows, options) {
-	const transform = makeTransformer(options);
+	const transform = createTransformer(options);
 	return rows.map(transform);
 }
 
