@@ -6,7 +6,13 @@ import { basicValueCheck } from '../utils/basicValueCheck.js';
  * @param {HSTON} hston
  * @param {Config} config
  */
-function transform(hston, { lineSeparator, columnSeparator, outputColumnSeparator, outputLocales, outputColumns }) {
+async function transform(hston, { lineSeparator, columnSeparator, outputColumnSeparator, outputLocales, outputColumns }) {
+	const messages =
+		(
+			await import(`../i18n/${outputLocales}.json`, {
+				with: { type: 'json' },
+			})
+		).default || {};
 	const columns = outputColumns.split(columnSeparator);
 	const rows = hston.map((item) => {
 		return columns.map((column) => {
@@ -38,7 +44,7 @@ function transform(hston, { lineSeparator, columnSeparator, outputColumnSeparato
 			}
 		});
 	});
-	const rowsWithHead = [columns, ...rows];
+	const rowsWithHead = [columns.map((column) => messages[column] || column), ...rows];
 
 	return rowsWithHead.map((row) => row.join(outputColumnSeparator)).join(lineSeparator);
 }

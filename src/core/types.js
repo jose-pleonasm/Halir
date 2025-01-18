@@ -21,7 +21,7 @@
  */
 
 /**
- * @typedef {string} Profile
+ * @typedef {'degiro'} Profile
  */
 
 /**
