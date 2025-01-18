@@ -25,7 +25,8 @@ export const getConfig = () => {
 		outputColumns: process.env.OUTPUT_COLUMNS,
 		outputLocales: process.env.OUTPUT_LOCALES || 'cs-CZ',
 		outputTimezone: process.env.OUTPUT_TIMEZONE,
-		outputDateFormat: process.env.OUTPUT_DATE_FORMAT,
-		outputTimeFormat: process.env.OUTPUT_TIME_FORMAT,
+		outputColumnSeparator: process.env.OUTPUT_SEPARATOR || '\t',
+		// outputDateFormat: process.env.OUTPUT_DATE_FORMAT,
+		// outputTimeFormat: process.env.OUTPUT_TIME_FORMAT,
 	};
 };

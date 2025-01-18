@@ -1,4 +1,4 @@
-import { csvToHston } from './csvToHston.js';
+import { transformCsv } from './transformCsv.js';
 import { createFileCover } from '../helpers/fileCover.js';
 
 /**
@@ -9,4 +9,4 @@ import { createFileCover } from '../helpers/fileCover.js';
  * @param {Config} config
  * @returns {Promise<void>}
  */
-export const csvToHstonFile = createFileCover(async (input, profile, config) => JSON.stringify(await csvToHston(profile, config, input)));
+export const transformCsvFile = createFileCover(async (input, profile, config) => transformCsv(profile, config, input));

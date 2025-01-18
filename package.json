@@ -18,7 +18,9 @@
   "type": "module",
   "main": "src/main.js",
   "scripts": {
-    "start": "node ./src/cli/csvToHstonFile.js",
+    "csvToHstonFile": "node ./src/cli/csvToHstonFile.js",
+    "hstonToCsvFile": "node ./src/cli/hstonToCsvFile.js",
+    "transformCsvFile": "node ./src/cli/transformCsvFile.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

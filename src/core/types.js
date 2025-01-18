@@ -5,18 +5,23 @@
 
 /**
  * @typedef {Object} Config
+ * @property {string} uuidNamespace
  * @property {string} lineSeparator
  * @property {string} columnSeparator
- * @property {string} uuidNamespace
+ * @property {string} fileEncoding
+ * @property {string} columns
+ * @property {string} locales
  * @property {string} timezone
  * @property {string} dateFormat
- * @property {string?} fileEncoding
+ * @property {string} timeFormat
+ * @property {string} outputLocales
+ * @property {string?} outputColumns
+ * @property {string?} outputTimezone
+ * @property {string?} outputColumnSeparator
  */
 
 /**
- * @typedef {Object} Setup
- * @property {'degiro'} profile
- * @property {Config} config
+ * @typedef {string} Profile
  */
 
 /**
@@ -28,17 +33,17 @@
  * @property {string} isin
  * @property {string} exchangeReference
  * @property {string} venue
- * @property {number} quantity
- * @property {number} price
+ * @property {number | null} quantity
+ * @property {number | null} price
  * @property {string} priceCurrency
- * @property {number} localValue
+ * @property {number | null} localValue
  * @property {string} localValueCurrency
- * @property {number} value
+ * @property {number | null} value
  * @property {string} valueCurrency
- * @property {number} exchangeRate
- * @property {number} fees
+ * @property {number | null} exchangeRate
+ * @property {number | null} fees
  * @property {string} feesCurrency
- * @property {number} total
+ * @property {number | null} total
  * @property {string} totalCurrency
  * @property {string} orderId
  */
