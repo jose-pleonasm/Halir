@@ -27,6 +27,7 @@ export const getSetup = async () => {
 		output: {
 			lang: 'en',
 			map: [
+				{ title: 'ID', field: 'id' },
 				{ title: 'Date', field: 'datetime' },
 				{ title: 'Product', field: 'product' },
 				{ title: 'ISIN', field: 'isin' },
@@ -40,6 +41,7 @@ export const getSetup = async () => {
 				{ title: 'Exchange rate', field: 'exchangeRate' },
 				{ title: 'Fees', field: `${fees} ${feesCurrency}` },
 				{ title: 'Total', field: `${total} ${totalCurrency}` },
+				{ title: 'Order ID', field: 'orderId' },
 			],
 		},
 	};
