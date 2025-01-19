@@ -1,4 +1,5 @@
 import { checkConfig } from './common.js';
+import { makeCsv } from './makeCsv.js';
 import { InvalidHstonError } from '../error/InvalidHstonError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
 
@@ -7,46 +8,38 @@ import { basicValueCheck } from '../utils/basicValueCheck.js';
  * @param {Config} config
  */
 async function transform(hston, { lineSeparator, columnSeparator, outputColumnSeparator, outputLocales, outputColumns }) {
-	const messages =
-		(
-			await import(`../i18n/${outputLocales}.json`, {
-				with: { type: 'json' },
-			})
-		).default || {};
+	const transformNumber = (value) => {
+		return value === null ? '' : value.toLocaleString(outputLocales);
+	};
+
+	const messages = (
+		await import(`../i18n/${outputLocales}.json`, {
+			with: { type: 'json' },
+		})
+	).default;
 	const columns = outputColumns.split(columnSeparator);
-	const rows = hston.map((item) => {
-		return columns.map((column) => {
-			switch (column) {
-				case 'date':
-					const date = item['datetime'];
-					return new Date(date).toLocaleDateString(outputLocales);
+	const transformers = {
+		date: (_, entry) => {
+			const date = entry['datetime'];
+			return new Date(date).toLocaleDateString(outputLocales);
+		},
+		time: (_, entry) => {
+			const time = entry['datetime'];
+			return new Date(time).toLocaleTimeString(outputLocales);
+		},
+		datetime: (datetime) => {
+			return new Date(datetime).toLocaleString(outputLocales);
+		},
+		quantity: transformNumber,
+		price: transformNumber,
+		localValue: transformNumber,
+		value: transformNumber,
+		exchangeRate: transformNumber,
+		fees: transformNumber,
+		total: transformNumber,
+	};
 
-				case 'time':
-					const time = item['datetime'];
-					return new Date(time).toLocaleTimeString(outputLocales);
-
-				case 'datetime':
-					const datetime = item['datetime'];
-					return new Date(datetime).toLocaleString(outputLocales);
-
-				case 'quantity':
-				case 'price':
-				case 'localValue':
-				case 'value':
-				case 'exchangeRate':
-				case 'fees':
-				case 'total':
-					const number = item[column];
-					return number === null ? '' : number.toLocaleString(outputLocales);
-
-				default:
-					return item[column];
-			}
-		});
-	});
-	const rowsWithHead = [columns.map((column) => messages[column] || column), ...rows];
-
-	return rowsWithHead.map((row) => row.join(outputColumnSeparator)).join(lineSeparator);
+	return makeCsv({ columns, transformers, lineSeparator, columnSeparator: outputColumnSeparator }, hston, messages);
 }
 
 /**
