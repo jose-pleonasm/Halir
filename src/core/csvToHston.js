@@ -8,7 +8,7 @@ import { basicValueCheck } from '../utils/basicValueCheck.js';
  * @param {string} input
  * @returns {Promise<HSTON>}
  */
-export const csvToHston = async (profile, config, input) => {
+export async function csvToHston(profile, config, input) {
 	checkProfile(profile);
 	checkConfig(config);
 	if (!basicValueCheck('string', input)) {
@@ -19,4 +19,4 @@ export const csvToHston = async (profile, config, input) => {
 
 	const module = await import(`../modules/${profile}/index.js`);
 	return module.csvToHston(input, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
-};
+}

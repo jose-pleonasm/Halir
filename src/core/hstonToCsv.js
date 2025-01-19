@@ -47,7 +47,7 @@ async function transform({ lineSeparator, columnSeparator, outputColumnSeparator
  * @param {HSTON} hston
  * @returns {Promise<string>}
  */
-export const hstonToCsv = async (config, hston) => {
+export async function hstonToCsv(config, hston) {
 	checkConfig(config);
 	if (!basicValueCheck('object', hston)) {
 		throw new InvalidHstonError();
@@ -65,4 +65,4 @@ export const hstonToCsv = async (config, hston) => {
 		},
 		hston,
 	);
-};
+}

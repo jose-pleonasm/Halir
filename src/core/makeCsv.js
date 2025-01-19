@@ -1,3 +1,6 @@
+import { InvalidParamError } from '../error/InvalidParamError.js';
+import { basicValueCheck } from '../utils/basicValueCheck.js';
+
 /**
  * @typedef {Object.<string, Object.<string, any>>} TransformerMap
  */
@@ -21,6 +24,19 @@
  * @param {Object.<string, string | number | null>[]} entries
  */
 export function makeCsv({ lineSeparator, columnSeparator, columns, transformers, titleMap }, entries) {
+	if (!basicValueCheck('string', lineSeparator)) {
+		throw new InvalidParamError('options.lineSeparator');
+	}
+	if (!basicValueCheck('string', columnSeparator)) {
+		throw new InvalidParamError('options.columnSeparator');
+	}
+	if (!Array.isArray(columns)) {
+		throw new InvalidParamError('options.columns');
+	}
+	if (!Array.isArray(entries)) {
+		throw new InvalidParamError('options.entries');
+	}
+
 	const rows = entries.map((entry) => {
 		return columns.map((column) => {
 			if (transformers?.[column] != null) {
