@@ -16,7 +16,7 @@
     "node": ">=12.0.0"
   },
   "type": "module",
-  "main": "src/main.js",
+  "main": "src/package/index.js",
   "scripts": {
     "csvToHstonFile": "node ./src/cli/csvToHstonFile.js",
     "hstonToCsvFile": "node ./src/cli/hstonToCsvFile.js",
