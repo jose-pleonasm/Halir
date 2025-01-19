@@ -8,7 +8,10 @@
 
 /**
  * @typedef {Object} Options
- * @property {Transformers} transformers
+ * @property {string} lineSeparator
+ * @property {string} columnSeparator
+ * @property {string[]} columns
+ * @property {Transformers?} transformers
  */
 
 /**
@@ -20,7 +23,7 @@
 export function makeCsv({ lineSeparator, columnSeparator, columns, transformers }, entries, titleMap) {
 	const rows = entries.map((entry) => {
 		return columns.map((column) => {
-			if (transformers[column] != null) {
+			if (transformers?.[column] != null) {
 				return typeof transformers[column] === 'function'
 					? transformers[column](entry[column], entry)
 					: transformers[column][entry[column]];
