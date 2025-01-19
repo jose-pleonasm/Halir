@@ -5,3 +5,6 @@ export { hstonToCsv } from '../core/hstonToCsv.js';
 export { hstonToCsvFile } from '../core/hstonToCsvFile.js';
 export { transformCsv } from '../core/transformCsv.js';
 export { transformCsvFile } from '../core/transformCsvFile.js';
+export { makeOverview } from '../core/makeOverview.js';
+export { makeOverviewFromTransactionsCsv } from '../core/makeOverviewFromTransactionsCsv.js';
+export { makeOverviewFromTransactionsCsvFile } from '../core/makeOverviewFromTransactionsCsvFile.js';

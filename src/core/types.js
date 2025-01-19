@@ -52,3 +52,26 @@
  * Halir Securities Transactions jsON
  * @typedef {HSTONItem[]}  HSTON
  */
+
+/**
+ * @typedef {Object}  HSOONItem
+ * @property {string} product
+ * @property {string} isin
+ * @property {number} quantity
+ * @property {number} avaragePrice
+ * @property {string} avaragePriceCurrency
+ * @property {number} totalLocalValue
+ * @property {string} totalLocalValueCurrency
+ * @property {number} totalValue
+ * @property {string} totalValueCurrency
+ * @property {number} avarageExchangeRate
+ * @property {number} totalFees
+ * @property {string} totalFeesCurrency
+ * @property {number} total
+ * @property {string} totalCurrency
+ */
+
+/**
+ * Halir Securities Overview jsON
+ * @typedef {HSOONItem[]}  HSOON
+ */
