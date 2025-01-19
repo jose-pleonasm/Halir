@@ -13,7 +13,7 @@
   "license": "UNLICENSED",
   "author": "jose-pleonasm",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=22.0.0"
   },
   "type": "module",
   "main": "src/package/index.js",
