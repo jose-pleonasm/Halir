@@ -1,11 +1,11 @@
-import { InvalidSetupError } from '../error/InvalidSetupError.js';
+import { InvalidParamError } from '../error/InvalidParamError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
 
 export const SUPPORTED_PROFILES = ['degiro'];
 
 export const checkProfile = (profile) => {
 	if (!SUPPORTED_PROFILES.includes(profile)) {
-		throw new InvalidSetupError('profile');
+		throw new InvalidParamError('profile');
 	}
 };
 
@@ -25,33 +25,33 @@ export const checkConfig = (config) => {
 		outputColumnSeparator,
 	} = config;
 	if (!basicValueCheck('string', uuidNamespace)) {
-		throw new InvalidSetupError('config.uuidNamespace');
+		throw new InvalidParamError('config.uuidNamespace');
 	}
 	if (!basicValueCheck('string', lineSeparator)) {
-		throw new InvalidSetupError('config.lineSeparator');
+		throw new InvalidParamError('config.lineSeparator');
 	}
 	if (!basicValueCheck('string', columnSeparator)) {
-		throw new InvalidSetupError('config.columnSeparator');
+		throw new InvalidParamError('config.columnSeparator');
 	}
 	if (!basicValueCheck('string', columnSeparator)) {
-		throw new InvalidSetupError('config.columnSeparator');
+		throw new InvalidParamError('config.columnSeparator');
 	}
 	if (!basicValueCheck('string', timezone)) {
-		throw new InvalidSetupError('config.timezone');
+		throw new InvalidParamError('config.timezone');
 	}
 	if (!basicValueCheck('string', dateFormat)) {
-		throw new InvalidSetupError('config.dateFormat');
+		throw new InvalidParamError('config.dateFormat');
 	}
 	if (!basicValueCheck('string', columns)) {
-		throw new InvalidSetupError('config.columns');
+		throw new InvalidParamError('config.columns');
 	}
 	if (!basicValueCheck('string', outputLocales)) {
-		throw new InvalidSetupError('config.outputLocales');
+		throw new InvalidParamError('config.outputLocales');
 	}
 	if (outputColumns && !basicValueCheck('string', outputColumns)) {
-		throw new InvalidSetupError('config.outputColumns');
+		throw new InvalidParamError('config.outputColumns');
 	}
 	if (outputColumnSeparator && !basicValueCheck('string', outputColumnSeparator)) {
-		throw new InvalidSetupError('config.outputColumnSeparator');
+		throw new InvalidParamError('config.outputColumnSeparator');
 	}
 };

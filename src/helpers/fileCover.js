@@ -1,5 +1,5 @@
 import { promises as fs } from 'node:fs';
-import { InvalidSetupError } from '../error/InvalidSetupError.js';
+import { InvalidParamError } from '../error/InvalidParamError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
 
 /**
@@ -16,13 +16,13 @@ export const createFileCover =
 	 */
 	async (fileEncoding, inputFile, outputFile, ...args) => {
 		if (!basicValueCheck('string', fileEncoding)) {
-			throw new InvalidSetupError('fileEncoding');
+			throw new InvalidParamError('fileEncoding');
 		}
 		if (!basicValueCheck('string', inputFile)) {
-			throw new InvalidSetupError('inputFile');
+			throw new InvalidParamError('inputFile');
 		}
 		if (!basicValueCheck('string', outputFile)) {
-			throw new InvalidSetupError('outputFile');
+			throw new InvalidParamError('outputFile');
 		}
 
 		const input = await fs.readFile(inputFile, { encoding: fileEncoding });

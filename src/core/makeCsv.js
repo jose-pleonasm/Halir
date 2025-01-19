@@ -12,15 +12,15 @@
  * @property {string} columnSeparator
  * @property {string[]} columns
  * @property {Transformers?} transformers
+ * @param {Object.<string, string>?} titleMap
  */
 
 /**
  *
  * @param {Options} options
  * @param {Object.<string, string | number | null>[]} entries
- * @param {Object.<string, string>?} titleMap
  */
-export function makeCsv({ lineSeparator, columnSeparator, columns, transformers }, entries, titleMap) {
+export function makeCsv({ lineSeparator, columnSeparator, columns, transformers, titleMap }, entries) {
 	const rows = entries.map((entry) => {
 		return columns.map((column) => {
 			if (transformers?.[column] != null) {

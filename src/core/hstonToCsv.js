@@ -4,10 +4,10 @@ import { InvalidHstonError } from '../error/InvalidHstonError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
 
 /**
- * @param {HSTON} hston
  * @param {Config} config
+ * @param {HSTON} hston
  */
-async function transform(hston, { lineSeparator, columnSeparator, outputColumnSeparator, outputLocales, outputColumns }) {
+async function transform({ lineSeparator, columnSeparator, outputColumnSeparator, outputLocales, outputColumns }, hston) {
 	const transformNumber = (value) => {
 		return value === null ? '' : value.toLocaleString(outputLocales);
 	};
@@ -39,7 +39,7 @@ async function transform(hston, { lineSeparator, columnSeparator, outputColumnSe
 		total: transformNumber,
 	};
 
-	return makeCsv({ columns, transformers, lineSeparator, columnSeparator: outputColumnSeparator }, hston, messages);
+	return makeCsv({ columns, transformers, lineSeparator, columnSeparator: outputColumnSeparator, titleMap: messages }, hston);
 }
 
 /**
@@ -55,11 +55,14 @@ export const hstonToCsv = async (config, hston) => {
 
 	const { lineSeparator, outputColumnSeparator, columnSeparator, outputLocales, outputColumns, columns } = config;
 
-	return transform(hston, {
-		lineSeparator,
-		columnSeparator,
-		outputLocales,
-		outputColumnSeparator: outputColumnSeparator || columnSeparator,
-		outputColumns: outputColumns || columns,
-	});
+	return transform(
+		{
+			lineSeparator,
+			columnSeparator,
+			outputLocales,
+			outputColumnSeparator: outputColumnSeparator || columnSeparator,
+			outputColumns: outputColumns || columns,
+		},
+		hston,
+	);
 };
