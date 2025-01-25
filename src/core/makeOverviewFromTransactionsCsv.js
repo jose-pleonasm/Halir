@@ -18,9 +18,9 @@ export async function makeOverviewFromTransactionsCsv(profile, config, input) {
 		throw new InvalidInputError();
 	}
 
-	const { lineSeparator, columnSeparator } = config;
+	const { lineSeparator, columnSeparator, numberScaleFactor } = config;
 	const columns = ['isin', 'product', 'quantity', 'totalLocalValue', 'totalValue', 'totalFees', 'total'];
 	const hston = await csvToHston(profile, config, input);
-	const overview = await makeOverview(hston);
+	const overview = await makeOverview({ numberScaleFactor }, hston);
 	return makeCsv({ lineSeparator, columnSeparator, columns }, overview);
 }

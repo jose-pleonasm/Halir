@@ -15,6 +15,7 @@ export const checkProfile = (profile) => {
 export const checkConfig = (config) => {
 	const {
 		uuidNamespace,
+		numberScaleFactor,
 		lineSeparator,
 		columnSeparator,
 		timezone,
@@ -26,6 +27,9 @@ export const checkConfig = (config) => {
 	} = config;
 	if (!basicValueCheck('string', uuidNamespace)) {
 		throw new InvalidParamError('config.uuidNamespace');
+	}
+	if (!basicValueCheck('number', numberScaleFactor) || isNaN(numberScaleFactor)) {
+		throw new InvalidParamError('config.numberScaleFactor');
 	}
 	if (!basicValueCheck('string', lineSeparator)) {
 		throw new InvalidParamError('config.lineSeparator');

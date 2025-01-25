@@ -1,12 +1,23 @@
 import { groupBy } from '../utils/groupBy.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
+import { add } from '../utils/math.js';
+import { InvalidParamError } from '../error/InvalidParamError.js';
 import { InvalidHstonError } from '../error/InvalidHstonError.js';
 
 /**
+ * @typedef {Object} Options
+ * @property {number} numberScaleFactor
+ */
+
+/**
+ * @param {Options} options
  * @param {HSTON} hston
  * @returns {Promise<HSOON>}
  */
-export function makeOverview(hston) {
+export function makeOverview({ numberScaleFactor }, hston) {
+	if (!basicValueCheck('number', numberScaleFactor) || isNaN(numberScaleFactor)) {
+		throw new InvalidParamError('options.numberScaleFactor');
+	}
 	if (!basicValueCheck('object', hston)) {
 		throw new InvalidHstonError();
 	}
@@ -20,11 +31,11 @@ export function makeOverview(hston) {
 			[isin]: entries.reduce(
 				(data, entry) => ({
 					...data,
-					quantity: data.quantity + entry.quantity,
-					totalLocalValue: data.totalLocalValue + entry.localValue,
-					totalValue: data.totalValue + entry.value,
-					totalFees: data.totalFees + entry.fees,
-					total: data.total + entry.total,
+					quantity: add(numberScaleFactor, data.quantity, entry.quantity),
+					totalLocalValue: add(numberScaleFactor, data.totalLocalValue, entry.localValue),
+					totalValue: add(numberScaleFactor, data.totalValue, entry.value),
+					totalFees: add(numberScaleFactor, data.totalFees, entry.fees),
+					total: add(numberScaleFactor, data.total, entry.total),
 				}),
 				{
 					isin,

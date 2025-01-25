@@ -6,6 +6,7 @@
 /**
  * @typedef {Object} Config
  * @property {string} uuidNamespace
+ * @property {number} numberScaleFactor
  * @property {string} lineSeparator
  * @property {string} columnSeparator
  * @property {string} fileEncoding
