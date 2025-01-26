@@ -11,8 +11,9 @@ export const checkProfile = (profile) => {
 
 /**
  * @param {Object} config
+ * @param {string[]?} omit
  */
-export const checkConfig = (config) => {
+export const checkConfig = (config, omit = []) => {
 	const {
 		uuidNamespace,
 		numberScaleFactor,
@@ -25,37 +26,34 @@ export const checkConfig = (config) => {
 		outputLocales,
 		outputColumnSeparator,
 	} = config;
-	if (!basicValueCheck('string', uuidNamespace)) {
+	if (!omit.includes('uuidNamespace') && !basicValueCheck('string', uuidNamespace)) {
 		throw new InvalidParamError('config.uuidNamespace');
 	}
-	if (!basicValueCheck('number', numberScaleFactor) || isNaN(numberScaleFactor)) {
+	if (!omit.includes('numberScaleFactor') && (!basicValueCheck('number', numberScaleFactor) || isNaN(numberScaleFactor))) {
 		throw new InvalidParamError('config.numberScaleFactor');
 	}
-	if (!basicValueCheck('string', lineSeparator)) {
+	if (!omit.includes('lineSeparator') && !basicValueCheck('string', lineSeparator)) {
 		throw new InvalidParamError('config.lineSeparator');
 	}
-	if (!basicValueCheck('string', columnSeparator)) {
+	if (!omit.includes('columnSeparator') && !basicValueCheck('string', columnSeparator)) {
 		throw new InvalidParamError('config.columnSeparator');
 	}
-	if (!basicValueCheck('string', columnSeparator)) {
-		throw new InvalidParamError('config.columnSeparator');
-	}
-	if (!basicValueCheck('string', timezone)) {
+	if (!omit.includes('timezone') && !basicValueCheck('string', timezone)) {
 		throw new InvalidParamError('config.timezone');
 	}
-	if (!basicValueCheck('string', dateFormat)) {
+	if (!omit.includes('dateFormat') && !basicValueCheck('string', dateFormat)) {
 		throw new InvalidParamError('config.dateFormat');
 	}
-	if (!basicValueCheck('string', columns)) {
+	if (!omit.includes('columns') && !basicValueCheck('string', columns)) {
 		throw new InvalidParamError('config.columns');
 	}
-	if (!basicValueCheck('string', outputLocales)) {
+	if (!omit.includes('outputLocales') && !basicValueCheck('string', outputLocales)) {
 		throw new InvalidParamError('config.outputLocales');
 	}
-	if (outputColumns && !basicValueCheck('string', outputColumns)) {
+	if (!omit.includes('outputColumns') && outputColumns && !basicValueCheck('string', outputColumns)) {
 		throw new InvalidParamError('config.outputColumns');
 	}
-	if (outputColumnSeparator && !basicValueCheck('string', outputColumnSeparator)) {
+	if (!omit.includes('outputColumnSeparator') && outputColumnSeparator && !basicValueCheck('string', outputColumnSeparator)) {
 		throw new InvalidParamError('config.outputColumnSeparator');
 	}
 };

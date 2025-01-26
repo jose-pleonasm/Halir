@@ -56,8 +56,8 @@
 
 /**
  * @typedef {Object}  HSOONItem
- * @property {string} product
  * @property {string} isin
+ * @property {string} product
  * @property {number} quantity
  * @property {number} avaragePrice
  * @property {string} avaragePriceCurrency
