@@ -1,5 +1,5 @@
 import { getConfig } from './private/getConfig.js';
-import { makeOverviewFromTransactionsCsvFile } from '../core/makeOverviewFromTransactionsCsvFile.js';
+import { makeOverviewFromTransactionsCsvFile } from '../main/makeOverviewFromTransactionsCsvFile.js';
 
 const { fileEncoding, ...config } = getConfig();
 
