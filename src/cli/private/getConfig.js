@@ -5,7 +5,7 @@ export const getConfig = () => {
 	return {
 		// general
 		uuidNamespace: process.env.UUID_NAMESPACE || 'd4cc5023-65d2-42d6-ad9a-164871762d68',
-		numberScaleFactor: process.env.NUMBER_SCALE_FACTOR ? parseInt(process.env.NUMBER_SCALE_FACTOR, 10) : 1000,
+		numberScaleFactor: process.env.NUMBER_SCALE_FACTOR ? parseInt(process.env.NUMBER_SCALE_FACTOR, 10) : 10000,
 		lineSeparator: process.env.DELIMITER || '\n',
 		columnSeparator: process.env.SEPARATOR || ',',
 
