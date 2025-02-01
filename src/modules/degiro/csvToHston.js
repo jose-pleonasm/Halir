@@ -73,7 +73,7 @@ const createTransformer = ({ uuidNamespace, timezone, dateFormat }) =>
  */
 function makeHston(rows, options) {
 	const transform = createTransformer(options);
-	return rows.map(transform);
+	return rows.map(transform).sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
 }
 
 /**
@@ -83,5 +83,5 @@ function makeHston(rows, options) {
  */
 export const csvToHston = async (input, options) => {
 	const rows = parse(input, options);
-	return makeHston(rows, options).sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+	return makeHston(rows, options);
 };
