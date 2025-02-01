@@ -22,6 +22,7 @@ export function makeOverview({ numberScaleFactor }, hston) {
 		throw new InvalidHstonError();
 	}
 
+	/** @type {Object.<string, HSTONItem[]>} */
 	const grouped = groupBy('isin', hston);
 	const calculated = Object.keys(grouped).reduce((calculated, isin) => {
 		const entries = grouped[isin];
@@ -32,10 +33,10 @@ export function makeOverview({ numberScaleFactor }, hston) {
 				(data, entry) => ({
 					...data,
 					quantity: add(numberScaleFactor, data.quantity, entry.quantity),
-					totalLocalValue: add(numberScaleFactor, data.totalLocalValue, entry.localValue),
-					totalValue: add(numberScaleFactor, data.totalValue, entry.value),
-					totalFees: add(numberScaleFactor, data.totalFees, entry.fees),
-					total: add(numberScaleFactor, data.total, entry.total),
+					totalLocalValue: add(numberScaleFactor, data.totalLocalValue, -entry.localValue),
+					totalValue: add(numberScaleFactor, data.totalValue, -entry.value),
+					totalFees: add(numberScaleFactor, data.totalFees, -entry.fees),
+					total: add(numberScaleFactor, data.total, -entry.total),
 				}),
 				{
 					isin,
