@@ -1,7 +1,7 @@
-import { checkProfile, checkConfig } from './common.js';
+import { checkProfile, checkConfig } from '../utils/common.js';
 import { csvToHston } from './csvToHston.js';
 import { makeOverview } from './makeOverview.js';
-import { makeCsv } from './makeCsv.js';
+import { makeCsv } from './general/makeCsv.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
 

@@ -1,4 +1,4 @@
-import { checkProfile, checkConfig } from './common.js';
+import { checkProfile, checkConfig } from '../utils/common.js';
 import { csvToHston } from './csvToHston.js';
 import { hstonToCsv } from './hstonToCsv.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';

@@ -1,5 +1,5 @@
-import { InvalidParamError } from '../error/InvalidParamError.js';
-import { basicValueCheck } from '../utils/basicValueCheck.js';
+import { InvalidParamError } from '../../error/InvalidParamError.js';
+import { basicValueCheck } from '../../utils/basicValueCheck.js';
 
 /**
  * @typedef {Object.<string, Object.<string, any>>} TransformerMap

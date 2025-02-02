@@ -1,4 +1,4 @@
-import { checkProfile, checkConfig } from './common.js';
+import { checkProfile, checkConfig } from '../utils/common.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
 

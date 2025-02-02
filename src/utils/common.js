@@ -1,5 +1,5 @@
 import { InvalidParamError } from '../error/InvalidParamError.js';
-import { basicValueCheck } from '../utils/basicValueCheck.js';
+import { basicValueCheck } from './basicValueCheck.js';
 
 export const SUPPORTED_PROFILES = ['degiro'];
 

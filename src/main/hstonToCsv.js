@@ -1,5 +1,5 @@
-import { checkConfig } from './common.js';
-import { makeCsv } from './makeCsv.js';
+import { checkConfig } from '../utils/common.js';
+import { makeCsv } from './general/makeCsv.js';
 import { InvalidHstonError } from '../error/InvalidHstonError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
 

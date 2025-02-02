@@ -1,5 +1,5 @@
 export { calculateFutureValueWithPeriodTax } from '../main/general/calculateFutureValueWithPeriodTax.js';
-export { makeCsv } from '../main/makeCsv.js';
+export { makeCsv } from '../main/general/makeCsv.js';
 export { csvToHston } from '../main/csvToHston.js';
 export { csvToHstonFile } from '../main/csvToHstonFile.js';
 export { hstonToCsv } from '../main/hstonToCsv.js';

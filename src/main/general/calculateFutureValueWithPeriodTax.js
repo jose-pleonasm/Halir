@@ -16,6 +16,7 @@ export function calculateFutureValueWithPeriodTax(
 	beginning = true,
 	periodTaxRate = 0,
 ) {
+	// TODO: zkontrolovat vstupy
 	let futureValue = startingValue;
 
 	for (let period = 1; period <= numberOfPeriods; period++) {
