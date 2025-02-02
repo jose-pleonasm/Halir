@@ -1,3 +1,3 @@
-import { CommonError } from './CommonError.js';
+import { CommonTypeError } from './CommonTypeError.js';
 
-export class InvalidInputError extends CommonError {}
+export class InvalidInputError extends CommonTypeError {}

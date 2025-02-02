@@ -15,7 +15,7 @@ export async function makeOverviewFromTransactionsCsv(profile, config, input) {
 	checkProfile(profile);
 	checkConfig(config);
 	if (!basicValueCheck('string', input)) {
-		throw new InvalidInputError();
+		throw new InvalidInputError('', { source: makeOverviewFromTransactionsCsv.name, value: input });
 	}
 
 	const { lineSeparator, columnSeparator, numberScaleFactor } = config;

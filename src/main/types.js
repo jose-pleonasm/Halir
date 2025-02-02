@@ -4,6 +4,13 @@
  */
 
 /**
+ * @typedef {Object} CustomErrorOptions
+ * @property {(Error | string)?} cause
+ * @property {string?} source
+ * @property {string?} value CustomTypeError
+ */
+
+/**
  * @typedef {Object} Config
  * @property {string} uuidNamespace
  * @property {number} numberScaleFactor

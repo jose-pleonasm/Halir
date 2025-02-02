@@ -1,4 +1,4 @@
-export class CommonError extends Error {
+export class CommonTypeError extends TypeError {
 	/**
 	 * @param {string} message
 	 * @param {(CustomErrorOptions | string)?} options
@@ -11,5 +11,10 @@ export class CommonError extends Error {
 
 		/** @type {string | null} */
 		this.source = hasOptions ? options.source : null;
+
+		if (hasOptions && 'value' in options) {
+			/** @type {*} */
+			this.value = options.value;
+		}
 	}
 }

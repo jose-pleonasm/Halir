@@ -14,7 +14,7 @@ export async function transformCsv(profile, config, input) {
 	checkProfile(profile);
 	checkConfig(config);
 	if (!basicValueCheck('string', input)) {
-		throw new InvalidInputError();
+		throw new InvalidInputError('', { source: transformCsv.name, value: input });
 	}
 
 	const hston = await csvToHston(profile, config, input);

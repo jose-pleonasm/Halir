@@ -16,10 +16,10 @@ import { InvalidHstonError } from '../error/InvalidHstonError.js';
  */
 export function makeOverview({ numberScaleFactor }, hston) {
 	if (!basicValueCheck('number', numberScaleFactor) || isNaN(numberScaleFactor)) {
-		throw new InvalidParamError('options.numberScaleFactor');
+		throw new InvalidParamError('options.numberScaleFactor', { source: makeOverview.name, value: numberScaleFactor });
 	}
 	if (!basicValueCheck('object', hston)) {
-		throw new InvalidHstonError();
+		throw new InvalidHstonError('', { source: makeOverview.name, value: hston });
 	}
 
 	/** @type {Object.<string, HSTONItem[]>} */

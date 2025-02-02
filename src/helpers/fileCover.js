@@ -16,13 +16,13 @@ export const createFileCover =
 	 */
 	async (fileEncoding, inputFile, outputFile, ...args) => {
 		if (!basicValueCheck('string', fileEncoding)) {
-			throw new InvalidParamError('fileEncoding');
+			throw new InvalidParamError('fileEncoding', { source: 'fileCover', value: fileEncoding });
 		}
 		if (!basicValueCheck('string', inputFile)) {
-			throw new InvalidParamError('inputFile');
+			throw new InvalidParamError('inputFile', { source: 'fileCover', value: inputFile });
 		}
 		if (!basicValueCheck('string', outputFile)) {
-			throw new InvalidParamError('outputFile');
+			throw new InvalidParamError('outputFile', { source: 'fileCover', value: outputFile });
 		}
 
 		const input = await fs.readFile(inputFile, { encoding: fileEncoding });

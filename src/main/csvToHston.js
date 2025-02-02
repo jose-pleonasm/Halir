@@ -12,7 +12,7 @@ export async function csvToHston(profile, config, input) {
 	checkProfile(profile);
 	checkConfig(config);
 	if (!basicValueCheck('string', input)) {
-		throw new InvalidInputError();
+		throw new InvalidInputError('', { source: csvToHston.name, value: input });
 	}
 
 	const { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat } = config;

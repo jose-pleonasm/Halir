@@ -50,7 +50,7 @@ async function transform({ lineSeparator, columnSeparator, outputColumnSeparator
 export async function hstonToCsv(config, hston) {
 	checkConfig(config);
 	if (!basicValueCheck('object', hston)) {
-		throw new InvalidHstonError();
+		throw new InvalidHstonError('', { source: hstonToCsv.name, value: hston });
 	}
 
 	const { lineSeparator, outputColumnSeparator, columnSeparator, outputLocales, outputColumns, columns } = config;
