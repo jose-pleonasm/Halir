@@ -67,8 +67,14 @@ export const checkConfig = (config, omit = []) => {
  * @param {string[]?} omit
  */
 export const checkLibrary = (lib, omit = []) => {
-	const { uuidV5 } = lib;
+	const { uuidV5, makeOdsFiles, makeZip } = lib;
 	if (!omit.includes('uuidV5') && !basicValueCheck('function', uuidV5)) {
 		throw new InvalidParamError('library.uuidV5');
+	}
+	if (!omit.includes('makeOdsFiles') && !basicValueCheck('function', makeOdsFiles)) {
+		throw new InvalidParamError('library.makeOdsFiles');
+	}
+	if (!omit.includes('makeZip') && !basicValueCheck('function', makeZip)) {
+		throw new InvalidParamError('library.makeZip');
 	}
 };

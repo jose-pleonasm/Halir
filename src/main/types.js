@@ -13,6 +13,8 @@
 /**
  * @typedef {Object} Library
  * @property {Function} uuidV5
+ * @property {Function} makeOdsFiles
+ * @property {Function} makeZip
  */
 
 /**

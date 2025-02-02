@@ -1,14 +1,12 @@
 import { checkProfile, checkConfig, checkLibrary } from '../utils/common.js';
 import { csvToHston } from './csvToHston.js';
 import { makeOverview } from './makeOverview.js';
-import { makeOdsFiles } from '../lib/ods/makeOdsFiles.js';
-import { createZip } from '../lib/zip/createZip.js';
 import { makeTableData } from '../utils/makeTableData.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
 import { writeFileSync } from 'fs';
 
-async function makeOds(sheetData) {
+async function makeOds({ makeOdsFiles, makeZip }, sheetData) {
 	const files = await makeOdsFiles(sheetData);
 
 	// TODO: remove
@@ -17,7 +15,7 @@ async function makeOds(sheetData) {
 		files.find((file) => file.name === 'content.xml').data,
 	);
 
-	return createZip(files);
+	return makeZip(files);
 }
 
 /**
@@ -63,5 +61,5 @@ export async function makeOverviewFromTransactionsOds(lib, profile, config, inpu
 		return [...row, test, currentPrice];
 	});
 
-	return makeOds(enhancedTableData);
+	return makeOds(lib, enhancedTableData);
 }
