@@ -19,6 +19,7 @@ export const checkConfig = (config, omit = []) => {
 		numberScaleFactor,
 		lineSeparator,
 		columnSeparator,
+		ticker,
 		timezone,
 		dateFormat,
 		columns,
@@ -38,6 +39,9 @@ export const checkConfig = (config, omit = []) => {
 	}
 	if (!omit.includes('columnSeparator') && !basicValueCheck('string', columnSeparator)) {
 		throw new InvalidParamError('config.columnSeparator');
+	}
+	if (!omit.includes('ticker') && (!basicValueCheck('object', ticker) || ticker == null)) {
+		throw new InvalidParamError('config.ticker');
 	}
 	if (!omit.includes('timezone') && !basicValueCheck('string', timezone)) {
 		throw new InvalidParamError('config.timezone');

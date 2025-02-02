@@ -1,3 +1,5 @@
+import { Ticker } from './securitiesConfig.js';
+
 /**
  * @returns {Config}
  */
@@ -8,6 +10,7 @@ export const getConfig = () => {
 		numberScaleFactor: process.env.NUMBER_SCALE_FACTOR ? parseInt(process.env.NUMBER_SCALE_FACTOR, 10) : 10000,
 		lineSeparator: process.env.DELIMITER || '\n',
 		columnSeparator: process.env.SEPARATOR || ',',
+		ticker: process.env.TICKER ? JSON.parse(process.env.TICKER) : Ticker,
 
 		// input
 		fileEncoding: process.env.FILE_ENCODING || 'utf8',

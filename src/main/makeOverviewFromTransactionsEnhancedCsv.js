@@ -32,7 +32,7 @@ export async function makeOverviewFromTransactionsEnhancedCsv(lib, profile, conf
 		}
 
 		const test = `=C${index + 1}`;
-		const currentPrice = row[0] === 'US67066G1040' ? `=GOOGLEFINANCE("NASDAQ:NVDA")` : null;
+		const currentPrice = config.ticker[row[0]] ? `=GOOGLEFINANCE("${config.ticker[row[0]].default}")` : '';
 		return [...row, test, currentPrice];
 	});
 

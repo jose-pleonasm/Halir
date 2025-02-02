@@ -23,6 +23,7 @@
  * @property {number} numberScaleFactor
  * @property {string} lineSeparator
  * @property {string} columnSeparator
+ * @property {Object.<string, Object>} ticker
  * @property {string} fileEncoding
  * @property {string} columns
  * @property {string} overviewColumns
