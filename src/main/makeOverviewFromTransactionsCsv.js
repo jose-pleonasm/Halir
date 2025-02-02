@@ -19,7 +19,19 @@ export async function makeOverviewFromTransactionsCsv(profile, config, input) {
 	}
 
 	const { lineSeparator, columnSeparator, numberScaleFactor } = config;
-	const columns = ['isin', 'product', 'quantity', 'totalLocalValue', 'totalValue', 'totalFees', 'total'];
+	const columns = [
+		'isin',
+		'product',
+		'quantity',
+		'totalLocalValue',
+		'totalLocalValueCurrency',
+		'totalValue',
+		'totalValueCurrency',
+		'totalFees',
+		'totalFeesCurrency',
+		'total',
+		'totalCurrency',
+	];
 	const hston = await csvToHston(profile, config, input);
 	const overview = await makeOverview({ numberScaleFactor }, hston);
 	return makeCsv({ lineSeparator, columnSeparator, columns }, overview);

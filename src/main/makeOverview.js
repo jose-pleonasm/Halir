@@ -26,7 +26,7 @@ export function makeOverview({ numberScaleFactor }, hston) {
 	const grouped = groupBy('isin', hston);
 	const calculated = Object.keys(grouped).reduce((calculated, isin) => {
 		const entries = grouped[isin];
-		const { product } = entries[0];
+		const { product, localValueCurrency, valueCurrency, feesCurrency, totalCurrency } = entries[0];
 		return {
 			...calculated,
 			[isin]: entries.reduce(
@@ -43,9 +43,14 @@ export function makeOverview({ numberScaleFactor }, hston) {
 					product,
 					quantity: 0,
 					totalLocalValue: 0,
+					totalLocalValueCurrency: localValueCurrency,
 					totalValue: 0,
+					totalValueCurrency: valueCurrency,
 					totalFees: 0,
+					totalFeesCurrency: feesCurrency,
 					total: 0,
+					totalCurrency: totalCurrency,
+					// TODO: avaragePrice, avaragePriceCurrency, avarageExchangeRate
 				},
 			),
 		};
