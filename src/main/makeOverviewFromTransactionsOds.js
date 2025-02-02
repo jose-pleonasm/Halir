@@ -1,10 +1,24 @@
 import { checkProfile, checkConfig } from '../utils/common.js';
 import { csvToHston } from './csvToHston.js';
 import { makeOverview } from './makeOverview.js';
-import { makeOds } from '../lib/ods/index.js';
+import { makeOdsFiles } from '../lib/ods/makeOdsFiles.js';
+import { createZip } from '../lib/zip/createZip.js';
 import { makeTableData } from '../utils/makeTableData.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
+import { writeFileSync } from 'fs';
+
+async function makeOds(sheetData) {
+	const files = await makeOdsFiles(sheetData);
+
+	// TODO: remove
+	writeFileSync(
+		'/Users/josepleonasm/Work/www/playground/google-sheets/_content.xml',
+		files.find((file) => file.name === 'content.xml').data,
+	);
+
+	return createZip(files);
+}
 
 /**
  * @param {Profile} profile

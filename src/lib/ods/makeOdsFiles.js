@@ -1,5 +1,3 @@
-import { Buffer } from 'buffer';
-import { createZip } from './zip.js';
 import { InvalidParamError } from '../../error/InvalidParamError.js';
 
 // This module creates an ODS file as a ZIP archive containing these files:
@@ -43,14 +41,21 @@ function tryToGetCellValue(sheetData, cellRef) {
 }
 
 /**
+ * @typedef {Object} OdsFileContainer
+ * @property {string} name
+ * @property {string} data
+ *
+ */
+
+/**
  * Create a minimal ODS file.
  *
  * @param {Array<Array<string>>} sheetData - 2D array representing the first sheet's cells.
- * @returns {Buffer} - A Buffer containing the complete ODS file.
+ * @returns {Promise<Array<OdsFileContainer>>} - Set of ODS files.
  */
-export function makeOds(sheetData) {
+export async function makeOdsFiles(sheetData) {
 	if (!Array.isArray(sheetData)) {
-		throw new InvalidParamError('sheetData', { source: makeOds.name, value: sheetData });
+		throw new InvalidParamError('sheetData', { source: makeOdsFiles.name, value: sheetData });
 	}
 
 	// Build content.xml dynamically.
@@ -174,30 +179,29 @@ export function makeOds(sheetData) {
 	const files = [
 		{
 			name: 'mimetype',
-			data: Buffer.from(mimetype, 'utf8'),
+			data: mimetype,
 		},
 		{
 			name: 'content.xml',
-			data: Buffer.from(contentXml, 'utf8'),
+			data: contentXml,
 		},
 		{
 			name: 'styles.xml',
-			data: Buffer.from(stylesXml, 'utf8'),
+			data: stylesXml,
 		},
 		{
 			name: 'meta.xml',
-			data: Buffer.from(metaXml, 'utf8'),
+			data: metaXml,
 		},
 		{
 			name: 'settings.xml',
-			data: Buffer.from(settingsXml, 'utf8'),
+			data: settingsXml,
 		},
 		{
 			name: 'META-INF/manifest.xml',
-			data: Buffer.from(manifestXml, 'utf8'),
+			data: manifestXml,
 		},
 	];
 
-	// Create the ZIP archive (our ODS file).
-	return createZip(files);
+	return files;
 }
