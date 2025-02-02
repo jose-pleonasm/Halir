@@ -12,6 +12,35 @@ import { InvalidParamError } from '../../error/InvalidParamError.js';
 //
 
 // For simplicity the XML files are “minimal”. (For production use, you’d need to be more robust.)
+// Example: Calculate the value of a reference cell before output.
+// This is a naive example—you’ll need a full evaluation engine for complex formulas.
+function tryToGetCellValue(sheetData, cellRef) {
+	try {
+		// Assuming cellRef is of the form '.C2' (i.e. column letter and row number)
+		// Convert column letter to index (A -> 0, B -> 1, ...)
+		const match = cellRef.match(/\.([A-Z]+)(\d+)/);
+		if (!match) {
+			return null;
+		}
+
+		const [, colLetters, rowStr] = match;
+		const rowIndex = parseInt(rowStr, 10) - 1; // zero-indexed row
+		let colIndex = 0;
+		for (let i = 0; i < colLetters.length; i++) {
+			colIndex = colIndex * 26 + (colLetters.charCodeAt(i) - 65 + 1);
+		}
+		colIndex--; // zero-indexed column
+
+		if (sheetData[rowIndex] && sheetData[rowIndex][colIndex] !== undefined) {
+			const cell = sheetData[rowIndex][colIndex];
+			return typeof cell === 'object' && cell.hasOwnProperty('value') ? cell.value : cell;
+		}
+		return null;
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
+}
 
 /**
  * Create a minimal ODS file.
@@ -24,22 +53,72 @@ export function makeOds(sheetData) {
 		throw new InvalidParamError('sheetData', { source: makeOds.name, value: sheetData });
 	}
 
-	// Build content.xml dynamically based on sheetData.
-	// This is a very minimal implementation.
+	// Build content.xml dynamically.
 	let rowsXml = '';
 	for (let row of sheetData) {
 		let cellsXml = '';
 		for (let cell of row) {
-			cellsXml += `<table:table-cell office:value-type="string"><text:p>${cell}</text:p></table:table-cell>`;
+			if (cell !== null && typeof cell === 'object' && cell.hasOwnProperty('formula')) {
+				let formula = cell.formula;
+				if (!formula.startsWith('of:=')) {
+					formula = 'of:=' + formula;
+				}
+				// For a simple reference like "of:=[.C2]", we can try to extract the referenced cell.
+				let computedValue = cell.value;
+				const refMatch = formula.match(/of:=\[(\.[A-Z]+\d+)\]/);
+				if (refMatch && computedValue === undefined) {
+					// Try to compute the value from the sheetData
+					const ref = refMatch[1]; // e.g., ".C2"
+					computedValue = tryToGetCellValue(sheetData, ref);
+				}
+				const isNumeric = typeof computedValue === 'number';
+				const valueType = cell.type ? cell.type : isNumeric ? 'float' : 'string';
+				cellsXml += `<table:table-cell table:formula="${formula}" office:value-type="${valueType}"${isNumeric ? ` office:value="${computedValue}"` : ''} calcext:value-type="${valueType}"><text:p>${computedValue}</text:p></table:table-cell>`;
+			} else {
+				// Normal cell handling...
+				const cellText = cell !== null ? cell.toString() : '';
+				cellsXml += `<table:table-cell office:value-type="string"><text:p>${cellText}</text:p></table:table-cell>`;
+			}
 		}
 		rowsXml += `<table:table-row>${cellsXml}</table:table-row>`;
 	}
 
 	const contentXml = `<?xml version="1.0" encoding="UTF-8"?>
 <office:document-content 
-    xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
-    xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0"
-    xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+    	xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+	xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0"
+	xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+	xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0"
+	xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0"
+	xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0"
+	xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0"
+	xmlns:presentation="urn:oasis:names:tc:opendocument:xmlns:presentation:1.0"
+	xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0"
+	xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0"
+	xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0"
+	xmlns:math="http://www.w3.org/1998/Math/MathML"
+	xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0"
+	xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0"
+	xmlns:ooo="http://openoffice.org/2004/office"
+	xmlns:ooow="http://openoffice.org/2004/writer"
+	xmlns:oooc="http://openoffice.org/2004/calc"
+	xmlns:dom="http://www.w3.org/2001/xml-events"
+	xmlns:xforms="http://www.w3.org/2002/xforms"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:rpt="http://openoffice.org/2005/report"
+	xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	xmlns:grddl="http://www.w3.org/2003/g/data-view#"
+	xmlns:tableooo="http://openoffice.org/2009/table"
+	xmlns:drawooo="http://openoffice.org/2010/draw"
+	xmlns:calcext="urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0"
+	xmlns:loext="urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0"
+	xmlns:field="urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0"
+	xmlns:formx="urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0"
     office:version="1.2">
   <office:body>
     <office:spreadsheet>
@@ -65,7 +144,7 @@ export function makeOds(sheetData) {
     xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0"
     office:version="1.2">
   <office:meta>
-    <meta:generator>Minimal ODS Generator</meta:generator>
+    <meta:generator>Minimal ODS Generator with Formula Support</meta:generator>
   </office:meta>
 </office:document-meta>`;
 
