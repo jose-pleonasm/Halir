@@ -22,6 +22,7 @@ export const checkConfig = (config, omit = []) => {
 		timezone,
 		dateFormat,
 		columns,
+		overviewColumns,
 		outputColumns,
 		outputLocales,
 		outputColumnSeparator,
@@ -49,6 +50,9 @@ export const checkConfig = (config, omit = []) => {
 	}
 	if (!omit.includes('outputLocales') && !basicValueCheck('string', outputLocales)) {
 		throw new InvalidParamError('config.outputLocales');
+	}
+	if (!omit.includes('overviewColumns') && !basicValueCheck('string', overviewColumns)) {
+		throw new InvalidParamError('config.overviewColumns');
 	}
 	if (!omit.includes('outputColumns') && outputColumns && !basicValueCheck('string', outputColumns)) {
 		throw new InvalidParamError('config.outputColumns');

@@ -18,20 +18,8 @@ export async function makeOverviewFromTransactionsCsv(profile, config, input) {
 		throw new InvalidInputError('', { source: makeOverviewFromTransactionsCsv.name, value: input });
 	}
 
-	const { lineSeparator, columnSeparator, numberScaleFactor } = config;
-	const columns = [
-		'isin',
-		'product',
-		'quantity',
-		'totalLocalValue',
-		'totalLocalValueCurrency',
-		'totalValue',
-		'totalValueCurrency',
-		'totalFees',
-		'totalFeesCurrency',
-		'total',
-		'totalCurrency',
-	];
+	const { lineSeparator, columnSeparator, numberScaleFactor, overviewColumns } = config;
+	const columns = overviewColumns.split(columnSeparator);
 	const hston = await csvToHston(profile, config, input);
 	const overview = await makeOverview({ numberScaleFactor }, hston);
 	return makeCsv({ lineSeparator, columnSeparator, columns }, overview);

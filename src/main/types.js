@@ -18,6 +18,7 @@
  * @property {string} columnSeparator
  * @property {string} fileEncoding
  * @property {string} columns
+ * @property {string} overviewColumns
  * @property {string} locales
  * @property {string} timezone
  * @property {string} dateFormat

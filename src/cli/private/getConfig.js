@@ -14,6 +14,9 @@ export const getConfig = () => {
 		columns:
 			process.env.COLUMNS ||
 			'date,time,product,isin,exchangeReference,venue,quantity,price,priceCurrency,localValue,localValueCurrency,value,valueCurrency,exchangeRate,fees,feesCurrency,total,totalCurrency,orderId', // TODO: nebere se v potaz (na vstupu)
+		overviewColumns:
+			process.env.OVERVIEW_COLUMNS ||
+			'isin,product,quantity,totalLocalValue,totalLocalValueCurrency,totalValue,totalValueCurrency,totalFees,totalFeesCurrency,total,totalCurrency',
 		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument
 		locales: process.env.LOCALES || 'en',
 		timezone: process.env.TIMEZONE || 'UTC+01:00',
