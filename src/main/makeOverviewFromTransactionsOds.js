@@ -1,4 +1,4 @@
-import { checkProfile, checkConfig } from '../utils/common.js';
+import { checkProfile, checkConfig, checkLibrary } from '../utils/common.js';
 import { csvToHston } from './csvToHston.js';
 import { makeOverview } from './makeOverview.js';
 import { makeOdsFiles } from '../lib/ods/makeOdsFiles.js';
@@ -21,12 +21,14 @@ async function makeOds(sheetData) {
 }
 
 /**
+ * @param {Library} lib
  * @param {Profile} profile
  * @param {Config} config
  * @param {string} input
  * @returns {Promise<Buffer>}
  */
-export async function makeOverviewFromTransactionsOds(profile, config, input) {
+export async function makeOverviewFromTransactionsOds(lib, profile, config, input) {
+	checkLibrary(lib);
 	checkProfile(profile);
 	checkConfig(config);
 	if (!basicValueCheck('string', input)) {
@@ -47,7 +49,7 @@ export async function makeOverviewFromTransactionsOds(profile, config, input) {
 		'total',
 		'totalCurrency',
 	];
-	const hston = await csvToHston(profile, config, input);
+	const hston = await csvToHston(lib, profile, config, input);
 	const overview = await makeOverview({ numberScaleFactor }, hston);
 	const tableData = makeTableData({ columns }, overview);
 

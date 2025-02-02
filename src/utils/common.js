@@ -61,3 +61,14 @@ export const checkConfig = (config, omit = []) => {
 		throw new InvalidParamError('config.outputColumnSeparator');
 	}
 };
+
+/**
+ * @param {Library} lib
+ * @param {string[]?} omit
+ */
+export const checkLibrary = (lib, omit = []) => {
+	const { uuidV5 } = lib;
+	if (!omit.includes('uuidV5') && !basicValueCheck('function', uuidV5)) {
+		throw new InvalidParamError('library.uuidV5');
+	}
+};

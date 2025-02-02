@@ -1,4 +1,3 @@
-import { v5 } from 'uuid';
 import { createSimpleParser } from '../../utils/simpleParser.js';
 import { getDateValue } from '../../utils/getDateValue.js';
 import { hasRowValues } from '../../utils/hasRowValues.js';
@@ -17,7 +16,7 @@ function getAction(row) {
 		return '[ERROR]';
 	}
 
-	return quantity > 0 ? 'buy' : 'sell'; // TODO: lepsi detekci + pridat akce (jako "Split Adjustment")
+	return quantity > 0 ? 'buy' : 'sell'; // TODO: better detection
 }
 
 /**
@@ -34,13 +33,13 @@ function parse(input, options) {
 	return rows.filter(hasRowValues);
 }
 
-const createTransformer = ({ uuidNamespace, timezone, dateFormat }) =>
+const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) =>
 	/**
 	 * @param {Row} row
 	 * @returns {HSTONItem}
 	 */
 	function transformer(row) {
-		const id = v5(row.join(''), uuidNamespace);
+		const id = uuidV5(row.join(''), uuidNamespace);
 
 		return {
 			id,
@@ -67,21 +66,23 @@ const createTransformer = ({ uuidNamespace, timezone, dateFormat }) =>
 	};
 
 /**
+ * @param {Library} lib
  * @param {Row[]} rows
  * @param {Object} options
  * @returns {HSTON}
  */
-function makeHston(rows, options) {
-	const transform = createTransformer(options);
+function makeHston(lib, rows, options) {
+	const transform = createTransformer(lib, options);
 	return rows.map(transform).sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
 }
 
 /**
+ * @param {Library} lib
  * @param {string} input
  * @param {Object} options
  * @returns {HSTON}
  */
-export const csvToHston = async (input, options) => {
+export async function csvToHston(lib, input, options) {
 	const rows = parse(input, options);
-	return makeHston(rows, options);
-};
+	return makeHston(lib, rows, options);
+}

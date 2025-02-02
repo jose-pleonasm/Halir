@@ -1,14 +1,16 @@
-import { checkProfile, checkConfig } from '../utils/common.js';
+import { checkProfile, checkConfig, checkLibrary } from '../utils/common.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
 
 /**
+ * @param {Library} lib
  * @param {Profile} profile
  * @param {Config} config
  * @param {string} input
  * @returns {Promise<HSTON>}
  */
-export async function csvToHston(profile, config, input) {
+export async function csvToHston(lib, profile, config, input) {
+	checkLibrary(lib);
 	checkProfile(profile);
 	checkConfig(config);
 	if (!basicValueCheck('string', input)) {
@@ -18,5 +20,5 @@ export async function csvToHston(profile, config, input) {
 	const { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat } = config;
 
 	const module = await import(`../modules/${profile}/index.js`);
-	return module.csvToHston(input, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
+	return module.csvToHston(lib, input, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
 }

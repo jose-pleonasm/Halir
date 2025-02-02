@@ -11,6 +11,11 @@
  */
 
 /**
+ * @typedef {Object} Library
+ * @property {Function} uuidV5
+ */
+
+/**
  * @typedef {Object} Config
  * @property {string} uuidNamespace
  * @property {number} numberScaleFactor
