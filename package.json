@@ -22,6 +22,7 @@
     "hstonToCsvFile": "node ./src/cli/hstonToCsvFile.js",
     "transformCsvFile": "node ./src/cli/transformCsvFile.js",
     "makeOverviewFromTransactionsCsvFile": "node ./src/cli/makeOverviewFromTransactionsCsvFile.js",
+    "makeOverviewFromTransactionsOdsFile": "node ./src/cli/makeOverviewFromTransactionsOdsFile.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

@@ -9,3 +9,5 @@ export { transformCsvFile } from '../main/transformCsvFile.js';
 export { makeOverview } from '../main/makeOverview.js';
 export { makeOverviewFromTransactionsCsv } from '../main/makeOverviewFromTransactionsCsv.js';
 export { makeOverviewFromTransactionsCsvFile } from '../main/makeOverviewFromTransactionsCsvFile.js';
+export { makeOverviewFromTransactionsOds } from '../main/makeOverviewFromTransactionsOds.js';
+export { makeOverviewFromTransactionsOdsFile } from '../main/makeOverviewFromTransactionsOdsFile.js';
