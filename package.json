@@ -24,8 +24,8 @@
     "makeOverviewFromTransactionsCsvFile": "node ./src/cli/makeOverviewFromTransactionsCsvFile.js",
     "makeOverviewFromTransactionsOdsFile": "node ./src/cli/makeOverviewFromTransactionsOdsFile.js",
     "makeOverviewFromTransactionsEnhancedCsvFile": "node ./src/cli/makeOverviewFromTransactionsEnhancedCsvFile.js",
-    "test": "vitest",
-    "test:browser": "vitest"
+    "test": "vitest --config vitest.config.node.js",
+    "test:browser": "vitest --config vitest.config.browser.js"
   },
   "devDependencies": {
     "@vitest/browser": "^3.0.5",
