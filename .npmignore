@@ -2,3 +2,4 @@
 .prettierrc
 .gitignore
 *.test.js
+test
