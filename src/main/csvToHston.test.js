@@ -1,13 +1,12 @@
 import { expect, test } from 'vitest';
 import { getTestLib } from '../test/getTestLib.js';
 import { getTestConfig } from '../test/getTestConfig.js';
+import { REGEXP_UUID } from '../test/utils.js';
 import { basicTransactionsCsv } from '../test/mocks.js';
 import { csvToHston } from './csvToHston.js';
 
 const lib = getTestLib();
 const config = getTestConfig();
-
-const REGEXP_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
 test('creates an array from CSV (basic check)', async () => {
 	const result = await csvToHston(lib, 'degiro', config, basicTransactionsCsv);
