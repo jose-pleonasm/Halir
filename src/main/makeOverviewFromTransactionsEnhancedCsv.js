@@ -16,13 +16,19 @@ function enhanceTableData(config, hsoon, tableData) {
 			return [...row, 'currentLocalValue', 'currentLocalValueCurrency', 'currentPrice'];
 		}
 
+		const tRow_current = index + 1;
+		const tColumn_currentLocalValue = 'L';
+
 		const relHsoonItem = hsoon[index - 1];
-		const currentTableRowNumber = index + 1;
 		const currentLocalValue = config.ticker[row[0]] ? `=GOOGLEFINANCE("${config.ticker[row[0]].default}")` : '';
-		const currentLocalValueCurrency = config.ticker[row[0]] ? `=GOOGLEFINANCE("${config.ticker[row[0]].default}"; "currency")` : '';
-		// TODO: IFERROR because of a case when source currency and target currency are the same
+		const currentLocalValueCurrency = config.ticker[row[0]]
+			? `=IF(GOOGLEFINANCE("${config.ticker[row[0]].default}"; "currency") = "${relHsoonItem.totalLocalValueCurrency}"; "${relHsoonItem.totalLocalValueCurrency}"; "[CURRENCY_ERROR]")`
+			: '';
 		// TODO: fix currencies like GBX
-		const currentPrice = `=IFERROR(GOOGLEFINANCE("CURRENCY:" & M${currentTableRowNumber} & "${relHsoonItem.totalCurrency}"); 1) * L${currentTableRowNumber}`;
+		const currentPrice =
+			relHsoonItem.totalLocalValueCurrency === relHsoonItem.totalCurrency
+				? `=${tColumn_currentLocalValue}${tRow_current}`
+				: `=GOOGLEFINANCE("CURRENCY:${relHsoonItem.totalLocalValueCurrency}${relHsoonItem.totalCurrency}") * ${tColumn_currentLocalValue}${tRow_current}`;
 		return [...row, currentLocalValue, currentLocalValueCurrency, currentPrice];
 	});
 }
