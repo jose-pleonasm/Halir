@@ -25,15 +25,18 @@ export async function makeOverviewFromTransactionsEnhancedCsv(lib, profile, conf
 	const hston = await csvToHston(lib, profile, config, input);
 	const overview = await makeOverview({ numberScaleFactor }, hston);
 	const tableData = makeTableData({ columns }, overview);
+	const mainCurrency = overview[0].totalCurrency;
 
 	const enhancedTableData = tableData.map((row, index) => {
 		if (index === 0) {
-			return [...row, 'TEST', 'current price'];
+			return [...row, 'currentLocalValue', 'currentLocalValueCurrency', 'currentPrice'];
 		}
 
-		const test = `=C${index + 1}`;
-		const currentPrice = config.ticker[row[0]] ? `=GOOGLEFINANCE("${config.ticker[row[0]].default}")` : '';
-		return [...row, test, currentPrice];
+		const currentRowNumber = index + 1;
+		const currentLocalValue = config.ticker[row[0]] ? `=GOOGLEFINANCE("${config.ticker[row[0]].default}")` : '';
+		const currentLocalValueCurrency = config.ticker[row[0]] ? `=GOOGLEFINANCE("${config.ticker[row[0]].default}"; "currency")` : '';
+		const currentPrice = `=IFERROR(GOOGLEFINANCE("CURRENCY:" & M${currentRowNumber} & "${mainCurrency}"); 1) * L${currentRowNumber}`; // TODO: fix currencies like GBX
+		return [...row, currentLocalValue, currentLocalValueCurrency, currentPrice];
 	});
 
 	return enhancedTableData.map((row) => row.join(columnSeparator)).join(lineSeparator);
