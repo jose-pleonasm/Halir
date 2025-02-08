@@ -1,3 +1,14 @@
+/**
+ * @typedef {Object} Options
+ * @property {string[]} columns
+ * @property {Transformers?} transformers
+ * @param {Object.<string, string>?} titleMap
+ */
+
+/**
+ * @param {Options} options
+ * @param {Array<Object.<string ,any>>} entries
+ */
 export function makeTableData({ columns, transformers, titleMap }, entries) {
 	const rows = entries.map((entry) => {
 		return columns.map((column) => {

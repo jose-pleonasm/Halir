@@ -3,14 +3,6 @@ import { basicValueCheck } from '../../utils/basicValueCheck.js';
 import { makeTableData } from '../../utils/makeTableData.js';
 
 /**
- * @typedef {Object.<string, Object.<string, any>>} TransformerMap
- */
-
-/**
- * @typedef {Object.<string, Function | TransformerMap>} Transformers
- */
-
-/**
  * @typedef {Object} Options
  * @property {string} lineSeparator
  * @property {string} columnSeparator

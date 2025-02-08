@@ -4,6 +4,16 @@
  */
 
 /**
+ * @private
+ * @typedef {Object.<string, Object.<string, any>>} TransformerMap
+ */
+
+/**
+ * @private
+ * @typedef {Object.<string, Function | TransformerMap>} Transformers
+ */
+
+/**
  * @typedef {Object} CustomErrorOptions
  * @property {(Error | string)?} cause
  * @property {string?} source
