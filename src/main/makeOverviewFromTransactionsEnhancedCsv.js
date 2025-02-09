@@ -22,9 +22,9 @@ function enhanceTableData(config, hsoon, tableData) {
 		const tColumn_currentLocalValue = 'L'; // TODO: vypočítat z columns
 
 		const relHsoonItem = hsoon[index - 1];
-		const currentLocalValue = config.ticker[row[0]] ? `=GOOGLEFINANCE("${config.ticker[row[0]].default}")` : '';
-		const currentLocalValueCurrency = config.ticker[row[0]]
-			? `=IF(GOOGLEFINANCE("${config.ticker[row[0]].default}"; "currency") = "${relHsoonItem.totalLocalValueCurrency}"; "${relHsoonItem.totalLocalValueCurrency}"; "[CURRENCY_ERROR]")`
+		const currentLocalValue = config.tickerMap[row[0]] ? `=GOOGLEFINANCE("${config.tickerMap[row[0]].default}")` : '';
+		const currentLocalValueCurrency = config.tickerMap[row[0]]
+			? `=IF(GOOGLEFINANCE("${config.tickerMap[row[0]].default}"; "currency") = "${relHsoonItem.totalLocalValueCurrency}"; "${relHsoonItem.totalLocalValueCurrency}"; "[CURRENCY_ERROR]")`
 			: '';
 		// TODO: fix currencies like GBX
 		const currentPrice =

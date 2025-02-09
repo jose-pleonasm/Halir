@@ -13,6 +13,11 @@
  * @typedef {Object.<string, Function | TransformerMap>} Transformers
  */
 
+/**
+ * @private
+ * @typedef {Object.<'default', string>} Ticker
+ */
+
 // Options (inputs, settings etc.)
 
 /**
@@ -35,7 +40,7 @@
  * @property {number} numberScaleFactor
  * @property {string} lineSeparator
  * @property {string} columnSeparator
- * @property {Object.<string, Object>} ticker
+ * @property {Object.<string, Ticker>} tickerMap
  * @property {string} fileEncoding
  * @property {string} columns
  * @property {string} overviewColumns

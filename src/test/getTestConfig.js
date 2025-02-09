@@ -1,4 +1,4 @@
-import { Ticker } from '../cli/private/securitiesConfig.js'; // TODO
+import { tickerMap } from '../cli/private/securitiesConfig.js'; // TODO
 
 export const getTestConfig = () => {
 	return {
@@ -7,7 +7,7 @@ export const getTestConfig = () => {
 		numberScaleFactor: 10000,
 		lineSeparator: '\n',
 		columnSeparator: ',',
-		ticker: Ticker,
+		tickerMap: tickerMap,
 
 		// input
 		fileEncoding: 'utf8',

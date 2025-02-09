@@ -1,4 +1,4 @@
-const SecurityMetadata = {
+const securityMetadata = {
 	US67066G1040: {
 		symbol: { default: 'NVDA' },
 		exchange: { default: 'NASDAQ' },
@@ -49,7 +49,7 @@ const SecurityMetadata = {
 	},
 };
 
-export const Ticker = Object.entries(SecurityMetadata).reduce(
-	(ticker, [isin, metadata]) => ({ ...ticker, [isin]: { default: `${metadata.exchange.default}:${metadata.symbol.default}` } }),
+export const tickerMap = Object.entries(securityMetadata).reduce(
+	(tickerMap, [isin, metadata]) => ({ ...tickerMap, [isin]: { default: `${metadata.exchange.default}:${metadata.symbol.default}` } }),
 	{},
 );
