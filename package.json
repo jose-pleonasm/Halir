@@ -21,6 +21,7 @@
     "csvToHstonFile": "node ./src/cli/csvToHstonFile.js",
     "hstonToCsvFile": "node ./src/cli/hstonToCsvFile.js",
     "transformCsvFile": "node ./src/cli/transformCsvFile.js",
+    "makeOverviewFromTransactionsFile": "node ./src/cli/makeOverviewFromTransactionsFile.js",
     "makeOverviewFromTransactionsCsvFile": "node ./src/cli/makeOverviewFromTransactionsCsvFile.js",
     "makeOverviewFromTransactionsOdsFile": "node ./src/cli/makeOverviewFromTransactionsOdsFile.js",
     "makeOverviewFromTransactionsEnhancedCsvFile": "node ./src/cli/makeOverviewFromTransactionsEnhancedCsvFile.js",
