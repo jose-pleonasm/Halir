@@ -8,4 +8,4 @@ import { createFileCover } from '../../helpers/fileCover.js';
  * @param {Config} config
  * @returns {Promise<void>}
  */
-export const hstonToCsvFile = createFileCover(async (input, config) => await hstonToCsv(config, JSON.parse(input)));
+export const hstonToCsvFile = createFileCover(async (hston, config) => await hstonToCsv(config, JSON.parse(hston)));

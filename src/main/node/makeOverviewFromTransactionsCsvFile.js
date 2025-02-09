@@ -10,6 +10,6 @@ import { createFileCover } from '../../helpers/fileCover.js';
  * @param {Config} config
  * @returns {Promise<void>}
  */
-export const makeOverviewFromTransactionsCsvFile = createFileCover(async (input, lib, profile, config) =>
-	makeOverviewFromTransactionsCsv(lib, profile, config, input),
+export const makeOverviewFromTransactionsCsvFile = createFileCover(async (csv, lib, profile, config) =>
+	makeOverviewFromTransactionsCsv(lib, profile, config, csv),
 );

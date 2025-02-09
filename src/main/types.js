@@ -13,6 +13,8 @@
  * @typedef {Object.<string, Function | TransformerMap>} Transformers
  */
 
+// Options (inputs, settings etc.)
+
 /**
  * @typedef {Object} CustomErrorOptions
  * @property {(Error | string)?} cause
@@ -50,6 +52,8 @@
 /**
  * @typedef {'degiro'} Profile
  */
+
+// Formats (outputs)
 
 /**
  * @typedef {Object}  HSTONItem

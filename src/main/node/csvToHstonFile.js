@@ -10,6 +10,6 @@ import { createFileCover } from '../../helpers/fileCover.js';
  * @param {Config} config
  * @returns {Promise<void>}
  */
-export const csvToHstonFile = createFileCover(async (input, lib, profile, config) =>
-	JSON.stringify(await csvToHston(lib, profile, config, input)),
+export const csvToHstonFile = createFileCover(async (csv, lib, profile, config) =>
+	JSON.stringify(await csvToHston(lib, profile, config, csv)),
 );

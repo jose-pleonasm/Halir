@@ -78,11 +78,11 @@ function makeHston(lib, rows, options) {
 
 /**
  * @param {Library} lib
- * @param {string} input
+ * @param {string} csv
  * @param {Object} options
  * @returns {HSTON}
  */
-export async function csvToHston(lib, input, options) {
-	const rows = parse(input, options);
+export async function csvToHston(lib, csv, options) {
+	const rows = parse(csv, options);
 	return makeHston(lib, rows, options);
 }

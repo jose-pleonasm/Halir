@@ -39,20 +39,20 @@ function enhanceTableData(config, hsoon, tableData) {
  * @param {Library} lib
  * @param {Profile} profile
  * @param {Config} config
- * @param {string} input
+ * @param {string} csv
  * @returns {Promise<string>}
  */
-export async function makeOverviewFromTransactionsEnhancedCsv(lib, profile, config, input) {
+export async function makeOverviewFromTransactionsEnhancedCsv(lib, profile, config, csv) {
 	checkLibrary(lib);
 	checkProfile(profile);
 	checkConfig(config);
-	if (!basicValueCheck('string', input)) {
-		throw new InvalidInputError('', { source: makeOverviewFromTransactionsCsv.name, value: input });
+	if (!basicValueCheck('string', csv)) {
+		throw new InvalidInputError('', { source: makeOverviewFromTransactionsCsv.name, value: csv });
 	}
 
 	const { lineSeparator, columnSeparator, numberScaleFactor, overviewColumns } = config;
 	const columns = overviewColumns.split(columnSeparator);
-	const hston = await csvToHston(lib, profile, config, input);
+	const hston = await csvToHston(lib, profile, config, csv);
 	const overview = await makeOverview({ numberScaleFactor }, hston);
 	const tableData = makeTableData({ columns }, overview);
 

@@ -6,19 +6,19 @@ import { basicValueCheck } from '../utils/basicValueCheck.js';
  * @param {Library} lib
  * @param {Profile} profile
  * @param {Config} config
- * @param {string} input
+ * @param {string} csv
  * @returns {Promise<HSTON>}
  */
-export async function csvToHston(lib, profile, config, input) {
+export async function csvToHston(lib, profile, config, csv) {
 	checkLibrary(lib);
 	checkProfile(profile);
 	checkConfig(config);
-	if (!basicValueCheck('string', input)) {
-		throw new InvalidInputError('', { source: csvToHston.name, value: input });
+	if (!basicValueCheck('string', csv)) {
+		throw new InvalidInputError('', { source: csvToHston.name, value: csv });
 	}
 
 	const { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat } = config;
 
 	const module = await import(`../modules/${profile}/index.js`);
-	return module.csvToHston(lib, input, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
+	return module.csvToHston(lib, csv, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
 }
