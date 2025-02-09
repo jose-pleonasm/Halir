@@ -12,6 +12,7 @@ async function transform({ lineSeparator, columnSeparator, outputColumnSeparator
 		return value === null ? '' : value.toLocaleString(outputLocales);
 	};
 
+	// TODO: mozna dat jako soucast configu
 	const messages = (
 		await import(`../i18n/${outputLocales}.json`, {
 			with: { type: 'json' },
