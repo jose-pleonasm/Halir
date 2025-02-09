@@ -1,6 +1,6 @@
 import { checkProfile, checkConfig, checkLibrary } from '../utils/common.js';
 import { csvToHston } from './csvToHston.js';
-import { makeOverview } from './makeOverview.js';
+import { makeOverviewFromTransactionsInternal } from './makeOverviewFromTransactions.js';
 import { makeTableData } from '../utils/makeTableData.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
@@ -50,10 +50,10 @@ export async function makeOverviewFromTransactionsEnhancedCsv(lib, profile, conf
 		throw new InvalidInputError('', { source: makeOverviewFromTransactionsCsv.name, value: csv });
 	}
 
-	const { lineSeparator, columnSeparator, numberScaleFactor, overviewColumns } = config;
+	const overview = await makeOverviewFromTransactionsInternal(lib, profile, config, csv);
+
+	const { lineSeparator, columnSeparator, overviewColumns } = config;
 	const columns = overviewColumns.split(columnSeparator);
-	const hston = await csvToHston(lib, profile, config, csv);
-	const overview = await makeOverview({ numberScaleFactor }, hston);
 	const tableData = makeTableData({ columns }, overview);
 
 	const enhancedTableData = enhanceTableData(config, overview, tableData);
