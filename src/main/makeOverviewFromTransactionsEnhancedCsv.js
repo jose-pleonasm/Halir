@@ -2,7 +2,15 @@ import { checkProfile, checkConfig, checkLibrary } from '../utils/common.js';
 import { makeOverviewFromTransactionsInternal } from './makeOverviewFromTransactions.js';
 import { makeTableData } from '../utils/makeTableData.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';
+import { CommonTypeError } from '../error/CommonTypeError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
+
+function getCharByPosition(position) {
+	if (position < 1 || position > 26) {
+		throw new CommonTypeError('Position must be between 1 and 26.');
+	}
+	return String.fromCharCode(96 + position); // 'a' is 97 in ASCII
+}
 
 /**
  * @param {Config} config
@@ -10,28 +18,33 @@ import { basicValueCheck } from '../utils/basicValueCheck.js';
  * @param {any[][]} tableData
  */
 function enhanceTableData(config, hsoon, tableData) {
-	return tableData.map((row, index) => {
-		if (index === 0) {
-			return [...row, 'currentLocalValue', 'currentLocalValueCurrency', 'currentPrice'];
-		}
+	const { tickerMap } = config;
 
-		// TODO: prevest vsecno na ucetni menu (napr: Price / Exchange rate)
+	const [header, ...rows] = tableData;
+	const enhancedHeader = [...header, 'currentLocalValue', 'currentLocalValueCurrency', 'currentPrice'];
+	const enhancedRows = rows.map((row, index) => {
+		// TODO: prevest vsechno na ucetni menu (napr: Price / Exchange rate)
 
-		const tRow_current = index + 1;
-		const tColumn_currentLocalValue = 'L'; // TODO: vypočítat z columns
+		const tRow_current = index + 2; // 0 -> 1 + header
+		const tColumn_currentLocalValue_index = enhancedHeader.findIndex((column) => column === 'currentLocalValue');
+		const tColumn_currentLocalValue = getCharByPosition(tColumn_currentLocalValue_index + 1).toUpperCase();
 
-		const relHsoonItem = hsoon[index - 1];
-		const currentLocalValue = config.tickerMap[row[0]] ? `=GOOGLEFINANCE("${config.tickerMap[row[0]].default}")` : '';
-		const currentLocalValueCurrency = config.tickerMap[row[0]]
-			? `=IF(GOOGLEFINANCE("${config.tickerMap[row[0]].default}"; "currency") = "${relHsoonItem.totalLocalValueCurrency}"; "${relHsoonItem.totalLocalValueCurrency}"; "[CURRENCY_ERROR]")`
+		const isin = row[0];
+		const relHsoonItem = hsoon[index];
+		const currentLocalValue = tickerMap[isin] ? `=GOOGLEFINANCE("${tickerMap[isin].default}")` : '';
+		const currentLocalValueCurrency = tickerMap[isin]
+			? `=IF(GOOGLEFINANCE("${tickerMap[isin].default}"; "currency") = "${relHsoonItem.totalLocalValueCurrency}"; "${relHsoonItem.totalLocalValueCurrency}"; "[CURRENCY_ERROR]")`
 			: '';
 		// TODO: fix currencies like GBX
 		const currentPrice =
 			relHsoonItem.totalLocalValueCurrency === relHsoonItem.totalCurrency
 				? `=${tColumn_currentLocalValue}${tRow_current}`
 				: `=GOOGLEFINANCE("CURRENCY:${relHsoonItem.totalLocalValueCurrency}${relHsoonItem.totalCurrency}") * ${tColumn_currentLocalValue}${tRow_current}`;
+
 		return [...row, currentLocalValue, currentLocalValueCurrency, currentPrice];
 	});
+
+	return [enhancedHeader, ...enhancedRows];
 }
 
 /**
