@@ -1,6 +1,6 @@
 import { getConfig } from './private/getConfig.js';
 import * as lib from '../lib/index.js';
-import { csvToHstonFile } from '../main/csvToHstonFile.js';
+import { csvToHstonFile } from '../main/node/csvToHstonFile.js';
 
 const { fileEncoding, ...config } = getConfig();
 

@@ -1,5 +1,5 @@
-import { csvToHston } from './csvToHston.js';
-import { createFileCover } from '../helpers/fileCover.js';
+import { csvToHston } from '../csvToHston.js';
+import { createFileCover } from '../../helpers/fileCover.js';
 
 /**
  * @param {string} fileEncoding

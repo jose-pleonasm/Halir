@@ -1,6 +1,6 @@
 import { getConfig } from './private/getConfig.js';
 import * as lib from '../lib/index.js';
-import { transformCsvFile } from '../main/transformCsvFile.js';
+import { transformCsvFile } from '../main/node/transformCsvFile.js';
 
 const { fileEncoding, ...config } = getConfig();
 

@@ -1,6 +1,6 @@
 import { getConfig } from './private/getConfig.js';
 import * as lib from '../lib/index.js';
-import { makeOverviewFromTransactionsEnhancedCsvFile } from '../main/makeOverviewFromTransactionsEnhancedCsvFile.js';
+import { makeOverviewFromTransactionsEnhancedCsvFile } from '../main/node/makeOverviewFromTransactionsEnhancedCsvFile.js';
 
 const { fileEncoding, ...config } = getConfig();
 

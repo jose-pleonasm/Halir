@@ -1,5 +1,5 @@
-import { transformCsv } from './transformCsv.js';
-import { createFileCover } from '../helpers/fileCover.js';
+import { transformCsv } from '../transformCsv.js';
+import { createFileCover } from '../../helpers/fileCover.js';
 
 /**
  * @param {string} fileEncoding

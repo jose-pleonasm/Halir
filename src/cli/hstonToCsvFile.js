@@ -1,5 +1,5 @@
 import { getConfig } from './private/getConfig.js';
-import { hstonToCsvFile } from '../main/hstonToCsvFile.js';
+import { hstonToCsvFile } from '../main/node/hstonToCsvFile.js';
 
 const { fileEncoding, ...config } = getConfig();
 
