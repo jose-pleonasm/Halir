@@ -16,8 +16,10 @@ function enhanceTableData(config, hsoon, tableData) {
 			return [...row, 'currentLocalValue', 'currentLocalValueCurrency', 'currentPrice'];
 		}
 
+		// TODO: prevest vsecno na ucetni menu (napr: Price / Exchange rate)
+
 		const tRow_current = index + 1;
-		const tColumn_currentLocalValue = 'L';
+		const tColumn_currentLocalValue = 'L'; // TODO: vypočítat z columns
 
 		const relHsoonItem = hsoon[index - 1];
 		const currentLocalValue = config.ticker[row[0]] ? `=GOOGLEFINANCE("${config.ticker[row[0]].default}")` : '';

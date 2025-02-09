@@ -24,6 +24,7 @@ export function makeOverview({ numberScaleFactor }, hston) {
 
 	/** @type {Object.<string, HSTONItem[]>} */
 	const grouped = groupBy('isin', hston);
+	// TODO: pridat total sell value nebo tak neco
 	const calculated = Object.keys(grouped).reduce((calculated, isin) => {
 		const entries = grouped[isin];
 		const { product, localValueCurrency, valueCurrency, feesCurrency, totalCurrency } = entries[0];
