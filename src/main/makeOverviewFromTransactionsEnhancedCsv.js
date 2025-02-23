@@ -1,51 +1,63 @@
 import { checkProfile, checkConfig, checkLibrary } from '../utils/common.js';
 import { _makeOverviewFromTransactions } from './makeOverviewFromTransactions.js';
+import { basicValueCheck } from '../utils/basicValueCheck.js';
+import { getCurrencyNormalization } from '../utils/getCurrencyNormalization.js';
+import { getExcelLikeColumnName } from '../utils/getExcelLikeColumnName.js';
 import { makeTableData } from '../utils/makeTableData.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';
-import { CommonTypeError } from '../error/CommonTypeError.js';
-import { basicValueCheck } from '../utils/basicValueCheck.js';
+import { FatalError } from '../error/FatalError.js';
 
-function getCharByPosition(position) {
-	if (position < 1 || position > 26) {
-		throw new CommonTypeError('Position must be between 1 and 26.');
+function getCurrencyRecalculater(sourceCurrency, targetCurrency) {
+	if (sourceCurrency === targetCurrency) {
+		return '';
 	}
 
-	return String.fromCharCode(96 + position); // 'a' is 97 in ASCII
+	const [sourceSupportedCurrency, sourceMultiplier] = getCurrencyNormalization(sourceCurrency);
+	return `*GOOGLEFINANCE("${sourceSupportedCurrency}${targetCurrency}")*${sourceMultiplier}`;
 }
 
 /**
  * @param {Config} config
  * @param {HSOON} hsoon
- * @param {any[][]} tableData
  */
-function enhanceTableData(config, hsoon, tableData) {
-	const { tickerMap } = config;
-	const [header, ...rows] = tableData;
+function makeOverviewTableData(config, hsoon) {
+	const { tickerMap, overviewColumns, columnSeparator } = config;
+	const mainCurrency = hsoon[0].totalTotalCurrency;
+	if (hsoon.find((item) => item.totalTotalCurrency !== mainCurrency)) {
+		throw new FatalError('Currency mismatch.', {
+			cause: `${item.totalTotalCurrency} != ${mainCurrency}`,
+			source: makeOverviewTableData.name,
+			value: item.totalTotalCurrency,
+		});
+	}
 
-	const enhancedHeader = [...header, 'currentLocalValue', 'currentLocalValueCurrency', 'currentPrice'];
-	const enhancedRows = rows.map((row, index) => {
-		// TODO: prevest vsechno na ucetni menu (napr: Price / Exchange rate)
+	const columns = overviewColumns.split(columnSeparator);
 
-		const tRow_current = index + 2; // 0 -> 1 + header
-		const tColumn_currentLocalValue_index = enhancedHeader.findIndex((column) => column === 'currentLocalValue');
-		const tColumn_currentLocalValue = getCharByPosition(tColumn_currentLocalValue_index + 1).toUpperCase();
+	const data = hsoon.map((item, index) => {
+		const { isin, product, quantity, totalLocalValueCurrency, totalTotal } = item;
 
-		const isin = row[0];
-		const relHsoonItem = hsoon[index];
-		const currentLocalValue = tickerMap[isin] ? `=GOOGLEFINANCE("${tickerMap[isin].default}")` : '';
-		const currentLocalValueCurrency = tickerMap[isin]
-			? `=IF(GOOGLEFINANCE("${tickerMap[isin].default}"; "currency") = "${relHsoonItem.totalLocalValueCurrency}"; "${relHsoonItem.totalLocalValueCurrency}"; "[CURRENCY_ERROR]")`
-			: '';
-		// TODO: fix currencies like GBX
-		const currentPrice =
-			relHsoonItem.totalLocalValueCurrency === relHsoonItem.totalTotalCurrency
-				? `=${tColumn_currentLocalValue}${tRow_current}`
-				: `=GOOGLEFINANCE("CURRENCY:${relHsoonItem.totalLocalValueCurrency}${relHsoonItem.totalTotalCurrency}") * ${tColumn_currentLocalValue}${tRow_current}`;
+		const tRow_current = index + 2; // 0 -> 1 + columns
+		const tColumn_quantity = getExcelLikeColumnName(columns, 'quantity');
+		const tColumn_currentValue = getExcelLikeColumnName(columns, 'currentValue');
+		const tColumn_totalCost = getExcelLikeColumnName(columns, 'totalCost');
+		const tColumn_currentTotalValue = getExcelLikeColumnName(columns, 'currentTotalValue');
 
-		return [...row, currentLocalValue, currentLocalValueCurrency, currentPrice];
+		return {
+			isin,
+			product,
+			quantity,
+			currency: mainCurrency,
+			totalCost: totalTotal,
+			avgCost: totalTotal === 0 ? 0 : quantity === 0 ? /* TODO */ '' : totalTotal / quantity,
+			currentValue: tickerMap[isin]
+				? `=GOOGLEFINANCE("${tickerMap[isin].default}")${getCurrencyRecalculater(totalLocalValueCurrency, mainCurrency)}`
+				: '',
+			currentTotalValue: `=${tColumn_quantity}${tRow_current} * ${tColumn_currentValue}${tRow_current}`,
+			result: `=${tColumn_currentTotalValue}${tRow_current} - ${tColumn_totalCost}${tRow_current}`,
+		};
 	});
 
-	return [enhancedHeader, ...enhancedRows];
+	return makeTableData({ columns }, data);
 }
 
 /**
@@ -64,11 +76,8 @@ export async function makeOverviewFromTransactionsEnhancedCsv(lib, profile, conf
 	}
 
 	const overview = await _makeOverviewFromTransactions(lib, profile, config, csv);
+	const tableData = makeOverviewTableData(config, overview);
 
-	const { lineSeparator, columnSeparator, overviewColumns } = config;
-	const columns = overviewColumns.split(columnSeparator);
-	const tableData = makeTableData({ columns }, overview);
-
-	const enhancedTableData = enhanceTableData(config, overview, tableData);
-	return enhancedTableData.map((row) => row.join(columnSeparator)).join(lineSeparator);
+	const { lineSeparator, columnSeparator } = config;
+	return tableData.map((row) => row.join(columnSeparator)).join(lineSeparator);
 }
