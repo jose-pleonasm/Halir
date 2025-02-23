@@ -99,7 +99,6 @@
  * @property {string} totalLocalValueCurrency
  * @property {number} totalValue
  * @property {string} totalValueCurrency
- * @property {number} avarageExchangeRate
  * @property {number} totalFees
  * @property {string} totalFeesCurrency
  * @property {number} totalTotal

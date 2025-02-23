@@ -28,13 +28,6 @@ export function makeOverview({ numberScaleFactor }, hston) {
 	const calculated = Object.keys(grouped).reduce((calculated, isin) => {
 		const entries = grouped[isin];
 		const { product, localValueCurrency, valueCurrency, feesCurrency, totalCurrency } = entries[0];
-		const totalAvarageExchangeRate = entries.reduce((total, entry) => {
-			if (total == null || entry.exchangeRate == null) {
-				return null;
-			}
-
-			return add(numberScaleFactor, total, entry.exchangeRate);
-		}, 0);
 		return {
 			...calculated,
 			[isin]: entries.reduce(
@@ -52,8 +45,6 @@ export function makeOverview({ numberScaleFactor }, hston) {
 				{
 					isin,
 					product,
-					avarageExchangeRate:
-						totalAvarageExchangeRate == null ? totalAvarageExchangeRate : totalAvarageExchangeRate / entries.length,
 					quantity: 0,
 					totalLocalValue: 0,
 					totalLocalValueCurrency: localValueCurrency,
