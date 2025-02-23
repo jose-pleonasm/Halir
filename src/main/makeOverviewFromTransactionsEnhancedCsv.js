@@ -1,5 +1,5 @@
 import { checkProfile, checkConfig, checkLibrary } from '../utils/common.js';
-import { makeOverviewFromTransactionsInternal } from './makeOverviewFromTransactions.js';
+import { _makeOverviewFromTransactions } from './makeOverviewFromTransactions.js';
 import { makeTableData } from '../utils/makeTableData.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';
 import { CommonTypeError } from '../error/CommonTypeError.js';
@@ -20,8 +20,8 @@ function getCharByPosition(position) {
  */
 function enhanceTableData(config, hsoon, tableData) {
 	const { tickerMap } = config;
-
 	const [header, ...rows] = tableData;
+
 	const enhancedHeader = [...header, 'currentLocalValue', 'currentLocalValueCurrency', 'currentPrice'];
 	const enhancedRows = rows.map((row, index) => {
 		// TODO: prevest vsechno na ucetni menu (napr: Price / Exchange rate)
@@ -63,7 +63,7 @@ export async function makeOverviewFromTransactionsEnhancedCsv(lib, profile, conf
 		throw new InvalidInputError('', { source: makeOverviewFromTransactionsCsv.name, value: csv });
 	}
 
-	const overview = await makeOverviewFromTransactionsInternal(lib, profile, config, csv);
+	const overview = await _makeOverviewFromTransactions(lib, profile, config, csv);
 
 	const { lineSeparator, columnSeparator, overviewColumns } = config;
 	const columns = overviewColumns.split(columnSeparator);

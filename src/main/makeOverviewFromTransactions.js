@@ -13,7 +13,7 @@ import { basicValueCheck } from '../utils/basicValueCheck.js';
  * @param {string} csv
  * @returns {Promise<HSOON>}
  */
-export async function makeOverviewFromTransactionsInternal(lib, profile, config, csv) {
+export async function _makeOverviewFromTransactions(lib, profile, config, csv) {
 	const { numberScaleFactor } = config;
 	const hston = await csvToHston(lib, profile, config, csv);
 	return makeOverview({ numberScaleFactor }, hston);
@@ -34,5 +34,5 @@ export async function makeOverviewFromTransactions(lib, profile, config, csv) {
 		throw new InvalidInputError('', { source: makeOverviewFromTransactions.name, value: csv });
 	}
 
-	return makeOverviewFromTransactionsInternal(lib, profile, config, csv);
+	return _makeOverviewFromTransactions(lib, profile, config, csv);
 }
