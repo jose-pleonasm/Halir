@@ -38,6 +38,9 @@ export function makeOverview({ numberScaleFactor }, hston) {
 					totalValue: add(numberScaleFactor, data.totalValue, -entry.value),
 					totalFees: add(numberScaleFactor, data.totalFees, -entry.fees),
 					totalTotal: add(numberScaleFactor, data.totalTotal, -entry.total),
+					...(entry.action === 'buy'
+						? { totalBuy: add(numberScaleFactor, data.totalBuy, -entry.total) }
+						: { totalSell: add(numberScaleFactor, data.totalSell, entry.total) }),
 				}),
 				{
 					isin,
@@ -51,7 +54,8 @@ export function makeOverview({ numberScaleFactor }, hston) {
 					totalFeesCurrency: feesCurrency,
 					totalTotal: 0,
 					totalTotalCurrency: totalCurrency,
-					// TODO: avaragePrice, avaragePriceCurrency, avarageExchangeRate
+					totalBuy: 0,
+					totalSell: 0,
 				},
 			),
 		};

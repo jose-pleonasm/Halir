@@ -104,6 +104,8 @@
  * @property {string} totalFeesCurrency
  * @property {number} totalTotal
  * @property {string} totalTotalCurrency
+ * @property {number} totalBuy
+ * @property {number} totalSell
  */
 
 /**
