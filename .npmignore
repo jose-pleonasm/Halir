@@ -55,4 +55,6 @@ examples.js
 .gitignore
 *.test.js
 test
+vitest.config.browser.js
+vitest.config.node.js
 docs
