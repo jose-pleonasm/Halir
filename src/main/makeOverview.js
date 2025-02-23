@@ -37,7 +37,7 @@ export function makeOverview({ numberScaleFactor }, hston) {
 					totalLocalValue: add(numberScaleFactor, data.totalLocalValue, -entry.localValue),
 					totalValue: add(numberScaleFactor, data.totalValue, -entry.value),
 					totalFees: add(numberScaleFactor, data.totalFees, -entry.fees),
-					total: add(numberScaleFactor, data.total, -entry.total),
+					totalTotal: add(numberScaleFactor, data.totalTotal, -entry.total),
 				}),
 				{
 					isin,
@@ -49,8 +49,8 @@ export function makeOverview({ numberScaleFactor }, hston) {
 					totalValueCurrency: valueCurrency,
 					totalFees: 0,
 					totalFeesCurrency: feesCurrency,
-					total: 0,
-					totalCurrency: totalCurrency,
+					totalTotal: 0,
+					totalTotalCurrency: totalCurrency,
 					// TODO: avaragePrice, avaragePriceCurrency, avarageExchangeRate
 				},
 			),

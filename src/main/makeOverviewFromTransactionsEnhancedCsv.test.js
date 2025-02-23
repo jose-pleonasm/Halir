@@ -19,7 +19,7 @@ test('creates an overview CSV from transactions CSV (extended check)', async () 
 	const lines = result.split(config.lineSeparator);
 	expect(lines.length).toBe(3);
 	expect(lines[0]).toBe(
-		'isin,product,quantity,totalLocalValue,totalLocalValueCurrency,totalValue,totalValueCurrency,totalFees,totalFeesCurrency,total,totalCurrency,currentLocalValue,currentLocalValueCurrency,currentPrice',
+		'isin,product,quantity,totalLocalValue,totalLocalValueCurrency,totalValue,totalValueCurrency,totalFees,totalFeesCurrency,totalTotal,totalTotalCurrency,currentLocalValue,currentLocalValueCurrency,currentPrice',
 	);
 	expect(lines[1]).contains('US0079031078');
 	expect(lines[2]).contains('US7475251036');

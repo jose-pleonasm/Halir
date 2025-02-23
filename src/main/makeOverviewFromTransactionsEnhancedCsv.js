@@ -9,6 +9,7 @@ function getCharByPosition(position) {
 	if (position < 1 || position > 26) {
 		throw new CommonTypeError('Position must be between 1 and 26.');
 	}
+
 	return String.fromCharCode(96 + position); // 'a' is 97 in ASCII
 }
 
@@ -37,9 +38,9 @@ function enhanceTableData(config, hsoon, tableData) {
 			: '';
 		// TODO: fix currencies like GBX
 		const currentPrice =
-			relHsoonItem.totalLocalValueCurrency === relHsoonItem.totalCurrency
+			relHsoonItem.totalLocalValueCurrency === relHsoonItem.totalTotalCurrency
 				? `=${tColumn_currentLocalValue}${tRow_current}`
-				: `=GOOGLEFINANCE("CURRENCY:${relHsoonItem.totalLocalValueCurrency}${relHsoonItem.totalCurrency}") * ${tColumn_currentLocalValue}${tRow_current}`;
+				: `=GOOGLEFINANCE("CURRENCY:${relHsoonItem.totalLocalValueCurrency}${relHsoonItem.totalTotalCurrency}") * ${tColumn_currentLocalValue}${tRow_current}`;
 
 		return [...row, currentLocalValue, currentLocalValueCurrency, currentPrice];
 	});

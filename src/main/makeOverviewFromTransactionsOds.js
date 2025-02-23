@@ -44,8 +44,8 @@ export async function makeOverviewFromTransactionsOds(lib, profile, config, csv)
 		'totalValueCurrency',
 		'totalFees',
 		'totalFeesCurrency',
-		'total',
-		'totalCurrency',
+		'totalTotal',
+		'totalTotalCurrency',
 	];
 	const hston = await csvToHston(lib, profile, config, csv);
 	const overview = await makeOverview({ numberScaleFactor }, hston);

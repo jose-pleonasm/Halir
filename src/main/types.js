@@ -95,8 +95,6 @@
  * @property {string} isin
  * @property {string} product
  * @property {number} quantity
- * @property {number} avaragePrice
- * @property {string} avaragePriceCurrency
  * @property {number} totalLocalValue
  * @property {string} totalLocalValueCurrency
  * @property {number} totalValue
@@ -104,8 +102,8 @@
  * @property {number} avarageExchangeRate
  * @property {number} totalFees
  * @property {string} totalFeesCurrency
- * @property {number} total
- * @property {string} totalCurrency
+ * @property {number} totalTotal
+ * @property {string} totalTotalCurrency
  */
 
 /**

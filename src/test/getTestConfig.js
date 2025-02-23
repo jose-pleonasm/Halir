@@ -12,9 +12,9 @@ export const getTestConfig = () => {
 		// input
 		fileEncoding: 'utf8',
 		columns:
-			'date,time,product,isin,exchangeReference,venue,quantity,price,priceCurrency,localValue,localValueCurrency,value,valueCurrency,exchangeRate,fees,feesCurrency,total,totalCurrency,orderId', // TODO: nebere se v potaz (na vstupu)
+			'date,time,product,isin,exchangeReference,venue,quantity,price,priceCurrency,localValue,localValueCurrency,value,valueCurrency,exchangeRate,fees,feesCurrency,totalTotal,totalTotalCurrency,orderId', // TODO: nebere se v potaz (na vstupu)
 		overviewColumns:
-			'isin,product,quantity,totalLocalValue,totalLocalValueCurrency,totalValue,totalValueCurrency,totalFees,totalFeesCurrency,total,totalCurrency',
+			'isin,product,quantity,totalLocalValue,totalLocalValueCurrency,totalValue,totalValueCurrency,totalFees,totalFeesCurrency,totalTotal,totalTotalCurrency',
 		locales: 'en',
 		timezone: 'UTC+01:00',
 		dateFormat: 'DD-MM-YYYY',
