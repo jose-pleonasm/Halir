@@ -20,7 +20,7 @@ test('creates an overview CSV from transactions CSV (extended check)', async () 
 	const result = await makeOverviewFromTransactionsEnhancedCsv(lib, 'degiro', config, basicTransactionsCsv);
 
 	const lines = result.split(config.lineSeparator);
-	expect(lines.length).toBe(3);
+	expect(lines.length).toBe(4);
 	expect(lines[0]).toBe('isin,product,currency,quantity,avgCost,totalCost,currentValue,currentTotalValue,result');
 	expect(lines[1]).contains('US0079031078');
 	expect(lines[2]).contains('US7475251036');

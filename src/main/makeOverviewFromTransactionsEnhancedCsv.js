@@ -32,15 +32,16 @@ function makeOverviewTableData(config, hsoon) {
 	}
 
 	const columns = overviewColumns.split(columnSeparator);
+	const tColumn_quantity = getExcelLikeColumnName(columns, 'quantity');
+	const tColumn_currentValue = getExcelLikeColumnName(columns, 'currentValue');
+	const tColumn_totalCost = getExcelLikeColumnName(columns, 'totalCost');
+	const tColumn_currentTotalValue = getExcelLikeColumnName(columns, 'currentTotalValue');
+	const tColumn_result = getExcelLikeColumnName(columns, 'result');
 
-	const data = hsoon.map((item, index) => {
+	const entries = hsoon.map((item, index) => {
 		const { isin, product, quantity, totalLocalValueCurrency, totalTotal } = item;
 
 		const tRow_current = index + 2; // 0 -> 1 + columns
-		const tColumn_quantity = getExcelLikeColumnName(columns, 'quantity');
-		const tColumn_currentValue = getExcelLikeColumnName(columns, 'currentValue');
-		const tColumn_totalCost = getExcelLikeColumnName(columns, 'totalCost');
-		const tColumn_currentTotalValue = getExcelLikeColumnName(columns, 'currentTotalValue');
 
 		return {
 			isin,
@@ -57,7 +58,9 @@ function makeOverviewTableData(config, hsoon) {
 		};
 	});
 
-	return makeTableData({ columns }, data);
+	const footer = [...Array(columns.length - 1).fill(''), `=SUM(${tColumn_result}2:${tColumn_result}${entries.length + 1})`];
+
+	return [...makeTableData({ columns }, entries), footer];
 }
 
 /**
