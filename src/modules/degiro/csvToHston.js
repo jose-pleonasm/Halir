@@ -4,6 +4,24 @@ import { hasRowValues } from '../../utils/hasRowValues.js';
 import { getNumberOrNull } from '../../utils/getNumberOrNull.js';
 
 /**
+ * @param {HSTONItem} item
+ * @returns {string}
+ */
+function getNote(item) {
+	const { venue, price, fees, total } = item;
+
+	if (venue === '' && fees === null && total === 0) {
+		return 'Spinoff';
+	}
+
+	if (venue === '' && fees === null && price !== 0) {
+		return 'Split Adjustment';
+	}
+
+	return '';
+}
+
+/**
  * @param {Row} row
  * @returns {string}
  */
@@ -35,13 +53,14 @@ function parse(input, options) {
 
 const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) =>
 	/**
+	 * Note: Keeping the currency as is it.
 	 * @param {Row} row
 	 * @returns {HSTONItem}
 	 */
 	function transformer(row) {
 		const id = uuidV5(row.join(''), uuidNamespace);
 
-		return {
+		const item = {
 			id,
 			action: getAction(row),
 			datetime: new Date(getDateValue({ timezone, dateFormat }, row[0], row[1])).toISOString(),
@@ -62,6 +81,11 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
 			total: getNumberOrNull(row[16]),
 			totalCurrency: row[17],
 			orderId: row[18],
+		};
+
+		return {
+			...item,
+			note: getNote(item),
 		};
 	};
 

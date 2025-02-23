@@ -64,6 +64,7 @@
  * @typedef {Object}  HSTONItem
  * @property {string} id UUID
  * @property {string} action
+ * @property {string} note
  * @property {string} datetime Date as a string value in ISO format.
  * @property {string} product
  * @property {string} isin
