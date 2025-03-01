@@ -1,11 +1,12 @@
-import { Buffer } from 'buffer';
+function createBuffer(data, encoding = 'utf8') {
+	const isNode = typeof Buffer !== 'undefined' && typeof process !== 'undefined';
+	if (isNode) {
+		return Buffer.from(data, encoding);
+	} else {
+		return new TextEncoder().encode(data);
+	}
+}
 
-// ZIP archive is created with no compression. (For production use, you’d need to be more robust.)
-
-/**
- * Compute CRC32 for a given Buffer.
- * This implementation uses a precalculated table.
- */
 function makeCRCTable() {
 	let c;
 	const crcTable = [];
@@ -29,113 +30,114 @@ function crc32(buf) {
 	return (crc ^ -1) >>> 0;
 }
 
+function writeUInt16LE(num) {
+	const buf = new Uint8Array(2);
+	buf[0] = num & 0xff;
+	buf[1] = (num >> 8) & 0xff;
+	return buf;
+}
+
+function writeUInt32LE(num) {
+	const buf = new Uint8Array(4);
+	buf[0] = num & 0xff;
+	buf[1] = (num >> 8) & 0xff;
+	buf[2] = (num >> 16) & 0xff;
+	buf[3] = (num >> 24) & 0xff;
+	return buf;
+}
+
 /**
- * Create a ZIP archive from a list of files.
- * Each file is an object with:
- *    name: path/name of file in archive (string)
- *    data: Buffer containing file contents
- * The archive is built with no compression.
+ * @typedef {Object} File
+ * @property {string} name Path/name of file
+ * @property {string} data File content
+ */
+
+/**
+ * Create a ZIP archive from a list of files (with no compression).
+ *
+ * @param {File[]} files
  */
 export async function makeZip(files) {
-	// Arrays to store parts of the ZIP archive
 	const localFileHeaders = [];
 	const centralDirectoryRecords = [];
 	let offset = 0;
 
-	// Helper function: write a 16-bit little–endian value to a Buffer.
-	function writeUInt16LE(num) {
-		const buf = Buffer.alloc(2);
-		buf.writeUInt16LE(num, 0);
-		return buf;
-	}
-	// Helper: 32–bit LE.
-	function writeUInt32LE(num) {
-		const buf = Buffer.alloc(4);
-		buf.writeUInt32LE(num, 0);
-		return buf;
-	}
-
-	// Process each file to create its local file header and record central directory info.
 	for (let file of files) {
-		const filenameBuf = Buffer.from(file.name, 'utf8');
-		const fileData = Buffer.from(file.data, 'utf8');
+		const filenameBuf = createBuffer(file.name);
+		const fileData = createBuffer(file.data);
 		const fileCRC = crc32(fileData);
 		const compressedSize = fileData.length;
 		const uncompressedSize = fileData.length;
 
-		// Local file header:
-		// signature (4 bytes) + version (2) + flag (2) + compression (2)
-		// + mod time (2) + mod date (2) + crc32 (4)
-		// + compressed size (4) + uncompressed size (4)
-		// + filename length (2) + extra field length (2)
-		const localHeader = Buffer.concat([
-			writeUInt32LE(0x04034b50), // Local file header signature
-			writeUInt16LE(20), // Version needed to extract
-			writeUInt16LE(0), // General purpose bit flag
-			writeUInt16LE(0), // Compression method (0 = no compression)
-			writeUInt16LE(0), // Last mod file time
-			writeUInt16LE(0), // Last mod file date
-			writeUInt32LE(fileCRC), // CRC-32
-			writeUInt32LE(compressedSize), // Compressed size
-			writeUInt32LE(uncompressedSize), // Uncompressed size
-			writeUInt16LE(filenameBuf.length), // File name length
-			writeUInt16LE(0), // Extra field length
+		const localHeader = new Uint8Array([
+			...writeUInt32LE(0x04034b50),
+			...writeUInt16LE(20),
+			...writeUInt16LE(0),
+			...writeUInt16LE(0),
+			...writeUInt16LE(0),
+			...writeUInt16LE(0),
+			...writeUInt32LE(fileCRC),
+			...writeUInt32LE(compressedSize),
+			...writeUInt32LE(uncompressedSize),
+			...writeUInt16LE(filenameBuf.length),
+			...writeUInt16LE(0),
 		]);
-		// Append header + filename + file data.
+
 		localFileHeaders.push(localHeader, filenameBuf, fileData);
 
-		// Create central directory record for this file.
-		const centralHeader = Buffer.concat([
-			writeUInt32LE(0x02014b50), // Central file header signature
-			writeUInt16LE(20), // Version made by
-			writeUInt16LE(20), // Version needed to extract
-			writeUInt16LE(0), // General purpose bit flag
-			writeUInt16LE(0), // Compression method
-			writeUInt16LE(0), // Last mod file time
-			writeUInt16LE(0), // Last mod file date
-			writeUInt32LE(fileCRC), // CRC-32
-			writeUInt32LE(compressedSize), // Compressed size
-			writeUInt32LE(uncompressedSize), // Uncompressed size
-			writeUInt16LE(filenameBuf.length), // File name length
-			writeUInt16LE(0), // Extra field length
-			writeUInt16LE(0), // File comment length
-			writeUInt16LE(0), // Disk number start
-			writeUInt16LE(0), // Internal file attributes
-			writeUInt32LE(0), // External file attributes
-			writeUInt32LE(offset), // Relative offset of local header
+		const centralHeader = new Uint8Array([
+			...writeUInt32LE(0x02014b50),
+			...writeUInt16LE(20),
+			...writeUInt16LE(20),
+			...writeUInt16LE(0),
+			...writeUInt16LE(0),
+			...writeUInt16LE(0),
+			...writeUInt16LE(0),
+			...writeUInt32LE(fileCRC),
+			...writeUInt32LE(compressedSize),
+			...writeUInt32LE(uncompressedSize),
+			...writeUInt16LE(filenameBuf.length),
+			...writeUInt16LE(0),
+			...writeUInt16LE(0),
+			...writeUInt16LE(0),
+			...writeUInt16LE(0),
+			...writeUInt32LE(0),
+			...writeUInt32LE(offset),
 		]);
-		// Append central header and filename.
-		centralDirectoryRecords.push(centralHeader, filenameBuf);
 
-		// Update offset: add local header, filename, and file data length.
+		centralDirectoryRecords.push(centralHeader, filenameBuf);
 		offset += localHeader.length + filenameBuf.length + fileData.length;
 	}
 
-	// Concatenate all local file entries.
-	const fileDataSection = Buffer.concat(localFileHeaders);
+	const fileDataSection = new Uint8Array(localFileHeaders.reduce((acc, arr) => acc + arr.length, 0));
+	let pos = 0;
+	localFileHeaders.forEach((arr) => {
+		fileDataSection.set(arr, pos);
+		pos += arr.length;
+	});
 
-	// Create the central directory section.
-	const centralDirectory = Buffer.concat(centralDirectoryRecords);
-	const centralDirSize = centralDirectory.length;
-	const centralDirOffset = offset;
+	const centralDirectory = new Uint8Array(centralDirectoryRecords.reduce((acc, arr) => acc + arr.length, 0));
+	pos = 0;
+	centralDirectoryRecords.forEach((arr) => {
+		centralDirectory.set(arr, pos);
+		pos += arr.length;
+	});
 
-	// End of central directory record:
-	// signature (4) + disk number (2) + start disk (2) +
-	// total entries on this disk (2) + total entries (2) +
-	// central directory size (4) + central directory offset (4) +
-	// comment length (2)
-	const eocd = Buffer.concat([
-		writeUInt32LE(0x06054b50), // End of central dir signature
-		writeUInt16LE(0), // Number of this disk
-		writeUInt16LE(0), // Disk where central directory starts
-		writeUInt16LE(files.length), // Number of central directory records on this disk
-		writeUInt16LE(files.length), // Total number of central directory records
-		writeUInt32LE(centralDirSize), // Size of central directory
-		writeUInt32LE(centralDirOffset), // Offset of start of central directory
-		writeUInt16LE(0), // ZIP file comment length
+	const eocd = new Uint8Array([
+		...writeUInt32LE(0x06054b50),
+		...writeUInt16LE(0),
+		...writeUInt16LE(0),
+		...writeUInt16LE(files.length),
+		...writeUInt16LE(files.length),
+		...writeUInt32LE(centralDirectory.length),
+		...writeUInt32LE(offset),
+		...writeUInt16LE(0),
 	]);
 
-	// Final ZIP file is the concatenation of the file data section,
-	// the central directory, and the EOCD record.
-	return Buffer.concat([fileDataSection, centralDirectory, eocd]);
+	const finalZip = new Uint8Array(fileDataSection.length + centralDirectory.length + eocd.length);
+	finalZip.set(fileDataSection, 0);
+	finalZip.set(centralDirectory, fileDataSection.length);
+	finalZip.set(eocd, fileDataSection.length + centralDirectory.length);
+
+	return finalZip;
 }

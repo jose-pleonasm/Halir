@@ -4,17 +4,9 @@ import { makeOverview } from './makeOverview.js';
 import { makeTableData } from '../utils/makeTableData.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
-import { writeFileSync } from 'fs';
 
 async function makeOds({ makeOdsFiles, makeZip }, sheetData) {
 	const files = await makeOdsFiles(sheetData);
-
-	// TODO: remove
-	writeFileSync(
-		'/Users/josepleonasm/Work/www/playground/google-sheets/_content.xml',
-		files.find((file) => file.name === 'content.xml').data,
-	);
-
 	return makeZip(files);
 }
 
@@ -23,7 +15,7 @@ async function makeOds({ makeOdsFiles, makeZip }, sheetData) {
  * @param {Profile} profile
  * @param {Config} config
  * @param {string} csv
- * @returns {Promise<Buffer>}
+ * @returns {Promise<Uint8Array<ArrayBuffer>>}
  */
 export async function makeOverviewFromTransactionsOds(lib, profile, config, csv) {
 	checkLibrary(lib);
