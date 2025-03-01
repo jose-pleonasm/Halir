@@ -55,10 +55,10 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
 	/**
 	 * Note: Keeping the currency as is it.
 	 * @param {Row} row
-	 * @returns {HSTONItem}
+	 * @returns {Promise<HSTONItem>}
 	 */
-	function transformer(row) {
-		const id = uuidV5(row.join(''), uuidNamespace);
+	async function transformer(row) {
+		const id = await uuidV5(row.join(''), uuidNamespace);
 
 		const item = {
 			id,
@@ -93,11 +93,11 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
  * @param {Library} lib
  * @param {Row[]} rows
  * @param {Object} options
- * @returns {HSTON}
+ * @returns {Promise<HSTON>}
  */
-function makeHston(lib, rows, options) {
+async function makeHston(lib, rows, options) {
 	const transform = createTransformer(lib, options);
-	return rows.map(transform).sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+	return (await Promise.all(rows.map(transform))).sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
 }
 
 /**
