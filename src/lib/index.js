@@ -1,3 +1,3 @@
 export { uuidV5 } from './uuid/v5.js';
-export { createZip as makeZip } from './zip/createZip.js';
+export { makeZip as makeZip } from './zip/makeZip.js';
 export { makeOdsFiles } from './ods/makeOdsFiles.js';

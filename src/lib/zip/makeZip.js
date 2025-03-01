@@ -36,7 +36,7 @@ function crc32(buf) {
  *    data: Buffer containing file contents
  * The archive is built with no compression.
  */
-export async function createZip(files) {
+export async function makeZip(files) {
 	// Arrays to store parts of the ZIP archive
 	const localFileHeaders = [];
 	const centralDirectoryRecords = [];
