@@ -61,3 +61,9 @@ test('creates valid HSTON (full check)', async () => {
 		}),
 	);
 });
+
+test('creates correct UUID of version 5', async () => {
+	const uuidNamespace = '8b558875-4377-477b-8d81-9b66ca9701b3';
+	const hston = await csvToHston(lib, 'degiro', { ...config, uuidNamespace }, basicTransactionsCsv);
+	expect(hston[0].id).toBe('5e8b8fd3-90d2-5141-95a9-86c3abdf9170');
+});
