@@ -33,8 +33,5 @@
     "playwright": "^1.50.1",
     "prettier": "^3.4.2",
     "vitest": "^3.0.5"
-  },
-  "dependencies": {
-    "uuid": "^11.0.5"
   }
 }
