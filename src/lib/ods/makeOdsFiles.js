@@ -41,17 +41,10 @@ function tryToGetCellValue(sheetData, cellRef) {
 }
 
 /**
- * @typedef {Object} OdsFileContainer
- * @property {string} name
- * @property {string} data
- *
- */
-
-/**
  * Create a minimal ODS file.
  *
  * @param {Array<Array<string>>} sheetData - 2D array representing the first sheet's cells.
- * @returns {Promise<Array<OdsFileContainer>>} - Set of ODS files.
+ * @returns {Promise<Array<FileContainer>>} - Set of ODS files.
  */
 export async function makeOdsFiles(sheetData) {
 	if (!Array.isArray(sheetData)) {

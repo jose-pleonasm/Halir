@@ -47,15 +47,9 @@ function writeUInt32LE(num) {
 }
 
 /**
- * @typedef {Object} File
- * @property {string} name Path/name of file
- * @property {string} data File content
- */
-
-/**
  * Create a ZIP archive from a list of files (with no compression).
  *
- * @param {File[]} files
+ * @param {FileContainer[]} files
  */
 export async function makeZip(files) {
 	const localFileHeaders = [];

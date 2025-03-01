@@ -18,6 +18,13 @@
  * @typedef {Object.<'default', string>} Ticker
  */
 
+/**
+ * @private
+ * @typedef {Object} FileContainer
+ * @property {string} name
+ * @property {string} data
+ */
+
 // Options (inputs, settings etc.)
 
 /**
