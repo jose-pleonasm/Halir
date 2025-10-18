@@ -75,7 +75,7 @@ export async function makeOverviewFromTransactionsEnhancedCsv(lib, profile, conf
 	checkProfile(profile);
 	checkConfig(config);
 	if (!basicValueCheck('string', csv)) {
-		throw new InvalidInputError('', { source: makeOverviewFromTransactionsCsv.name, value: csv });
+		throw new InvalidInputError('', { source: makeOverviewFromTransactionsEnhancedCsv.name, value: csv });
 	}
 
 	const overview = await _makeOverviewFromTransactions(lib, profile, config, csv);
