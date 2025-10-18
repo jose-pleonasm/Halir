@@ -5,7 +5,10 @@ import { basicTransactionsCsv } from '../test/mocks.js';
 import { makeOverviewFromTransactionsCsv } from './makeOverviewFromTransactionsCsv.js';
 
 const lib = getTestLib();
-const config = getTestConfig();
+const config = {
+	...getTestConfig(),
+	outputColumnSeparator: ',',
+};
 
 test('returns overview in CSV format', async () => {
 	const result = await makeOverviewFromTransactionsCsv(lib, 'degiro', config, basicTransactionsCsv);

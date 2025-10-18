@@ -3,5 +3,11 @@
  * @returns {number | null}
  */
 export function getNumberOrNull(value) {
-	return value != null && value !== '' ? parseFloat(value) : null; // TODO: co delat s NaN?
+	// TODO: co delat s NaN?
+	if (value == null || value === '') {
+		return null;
+	}
+
+	const sanitizedValue = typeof value === 'string' ? value.replace(',', '.').replaceAll('"', '') : value;
+	return parseFloat(sanitizedValue);
 }

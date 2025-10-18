@@ -81,6 +81,6 @@ export async function makeOverviewFromTransactionsEnhancedCsv(lib, profile, conf
 	const overview = await _makeOverviewFromTransactions(lib, profile, config, csv);
 	const tableData = makeOverviewTableData(config, overview);
 
-	const { lineSeparator, columnSeparator } = config;
-	return tableData.map((row) => row.join(columnSeparator)).join(lineSeparator);
+	const { lineSeparator, columnSeparator, outputColumnSeparator } = config;
+	return tableData.map((row) => row.join(outputColumnSeparator || columnSeparator)).join(lineSeparator);
 }

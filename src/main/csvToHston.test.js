@@ -2,19 +2,21 @@ import { expect, test } from 'vitest';
 import { getTestLib } from '../test/getTestLib.js';
 import { getTestConfig } from '../test/getTestConfig.js';
 import { REGEXP_UUID } from '../test/utils.js';
-import { basicTransactionsCsv } from '../test/mocks.js';
+import { basicTransactionsCsv, basicTransactionsCsvWithSillyPriceFormat } from '../test/mocks.js';
 import { csvToHston } from './csvToHston.js';
 
 const lib = getTestLib();
 const config = getTestConfig();
 
-test('creates an array from CSV (basic check)', async () => {
-	const result = await csvToHston(lib, 'degiro', config, basicTransactionsCsv);
+const csvs = [basicTransactionsCsv, basicTransactionsCsvWithSillyPriceFormat];
+
+test.each(csvs)('creates an array from CSV (basic check) for file number %#', async (csv) => {
+	const result = await csvToHston(lib, 'degiro', config, csv);
 	expect(result).toBeInstanceOf(Array);
 });
 
-test('creates valid HSTON (full check)', async () => {
-	const hston = await csvToHston(lib, 'degiro', config, basicTransactionsCsv);
+test.each(csvs)('creates valid HSTON (full check) for file number %#', async (csv) => {
+	const hston = await csvToHston(lib, 'degiro', config, csv);
 	expect(hston.length).toBe(2);
 	expect(hston[0]).toEqual(
 		expect.objectContaining({

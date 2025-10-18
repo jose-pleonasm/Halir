@@ -1,5 +1,4 @@
 import { checkProfile, checkConfig, checkLibrary } from '../utils/common.js';
-import { csvToHston } from './csvToHston.js';
 import { _makeOverviewFromTransactions } from './makeOverviewFromTransactions.js';
 import { makeCsv } from './general/makeCsv.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';
@@ -22,7 +21,7 @@ export async function makeOverviewFromTransactionsCsv(lib, profile, config, csv)
 
 	const overview = await _makeOverviewFromTransactions(lib, profile, config, csv);
 
-	const { lineSeparator, columnSeparator, overviewColumns } = config;
+	const { lineSeparator, columnSeparator, overviewColumns, outputColumnSeparator } = config;
 	const columns = overviewColumns.split(columnSeparator);
-	return makeCsv({ lineSeparator, columnSeparator, columns }, overview);
+	return makeCsv({ lineSeparator, columnSeparator: outputColumnSeparator || columnSeparator, columns }, overview);
 }

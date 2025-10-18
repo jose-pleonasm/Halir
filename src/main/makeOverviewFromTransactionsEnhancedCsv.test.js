@@ -7,6 +7,7 @@ import { makeOverviewFromTransactionsEnhancedCsv } from './makeOverviewFromTrans
 const lib = getTestLib();
 const config = {
 	...getTestConfig(),
+	outputColumnSeparator: ',',
 	overviewColumns: 'isin,product,currency,quantity,avgCost,totalCost,currentValue,currentTotalValue,result',
 };
 
