@@ -6,7 +6,7 @@ export const getTestConfig = () => {
 		uuidNamespace: '8b558875-4377-477b-8d81-9b66ca9701b3',
 		numberScaleFactor: 10000,
 		lineSeparator: '\n',
-		columnSeparator: ',',
+		columnSeparator: /,(?=(?:[^"]*"[^"]*")*[^"]*$)/,
 		tickerMap: tickerMap,
 
 		// input

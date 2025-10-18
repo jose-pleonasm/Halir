@@ -1,5 +1,6 @@
 import { InvalidParamError } from '../error/InvalidParamError.js';
 import { basicValueCheck } from './basicValueCheck.js';
+import { stringOrRegExpCheck } from './stringOrRegExpCheck.js';
 
 export const SUPPORTED_PROFILES = ['degiro'];
 
@@ -37,7 +38,7 @@ export const checkConfig = (config, omit = []) => {
 	if (!omit.includes('lineSeparator') && !basicValueCheck('string', lineSeparator)) {
 		throw new InvalidParamError('config.lineSeparator');
 	}
-	if (!omit.includes('columnSeparator') && !basicValueCheck('string', columnSeparator)) {
+	if (!omit.includes('columnSeparator') && !stringOrRegExpCheck(columnSeparator)) {
 		throw new InvalidParamError('config.columnSeparator');
 	}
 	if (!omit.includes('tickerMap') && (!basicValueCheck('object', tickerMap) || tickerMap == null)) {
