@@ -36,4 +36,4 @@ const csv = 'your csv';
 const hston = await csvToHston(lib, 'degiro', config, csv);
 ```
 
-Will produce JSON of the following shape, see [HSTON](src/main/types.js#L90).
+Will produce JSON of the following shape, see [HSTON](src/main/types.js#L97).
