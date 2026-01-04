@@ -83,7 +83,6 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
 			totalCurrency: row[17],
 			orderId: row[18],
 		});
-		// TODO: zanalyzovat a případně zavést do výpočtu autoFxFee
 		const hv17128931846c45cbfa4d51e08b671500c = (row) => ({
 			id,
 			action: getAction(row),
@@ -100,6 +99,8 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
 			value: getNumberOrNull(row[11]),
 			valueCurrency: 'EUR',
 			exchangeRate: getNumberOrNull(row[12]),
+			// TODO: zanalyzovat autoFxFee a případně ho přidat do fees
+			autoFxFee: getNumberOrNull(row[13]),
 			fees: getNumberOrNull(row[14]),
 			feesCurrency: 'EUR',
 			total: getNumberOrNull(row[15]),
@@ -122,6 +123,7 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
 			value: getNumberOrNull(row[11]),
 			valueCurrency: 'EUR',
 			exchangeRate: getNumberOrNull(row[12]),
+			autoFxFee: getNumberOrNull(row[13]),
 			fees: getNumberOrNull(row[14]),
 			feesCurrency: 'EUR',
 			total: getNumberOrNull(row[15]),
