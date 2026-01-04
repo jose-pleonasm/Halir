@@ -1,11 +1,12 @@
 import { checkProfile, checkConfig, checkLibrary } from '../utils/common.js';
 import { csvToHston } from './csvToHston.js';
 import { makeOverview } from './makeOverview.js';
-import { makeCsv } from './general/makeCsv.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
 
 /**
+ * Creates HSOON from HSTON compatible CSV
+ *
  * @private
  * @param {Library} lib
  * @param {Profile} profile

@@ -94,6 +94,9 @@
 
 /**
  * Halir Securities Transactions jsON
+ *
+ * Array of transactions in computer-processable format.
+ *
  * @typedef {HSTONItem[]}  HSTON
  */
 
@@ -116,5 +119,8 @@
 
 /**
  * Halir Securities Overview jsON
+ *
+ * List of products and their state.
+ *
  * @typedef {HSOONItem[]}  HSOON
  */

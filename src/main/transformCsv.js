@@ -5,6 +5,9 @@ import { InvalidInputError } from '../error/InvalidInputError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
 
 /**
+ * Transfom @see HSTON compatible CSV to another @see HSTON compatible CSV.
+ * Usable to change number format, date format etc.
+ *
  * @param {Library} lib
  * @param {Profile} profile
  * @param {Config} config

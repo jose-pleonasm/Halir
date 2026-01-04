@@ -10,6 +10,7 @@ import { InvalidHstonError } from '../error/InvalidHstonError.js';
  */
 
 /**
+ * HSTON => HSOON
  * @param {Options} options
  * @param {HSTON} hston
  * @returns {Promise<HSOON>}

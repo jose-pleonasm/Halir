@@ -2,6 +2,9 @@ import { checkProfile, checkConfig, checkLibrary } from '../utils/common.js';
 import { InvalidInputError } from '../error/InvalidInputError.js';
 import { basicValueCheck } from '../utils/basicValueCheck.js';
 
+/*
+	Obal /modules/{profile}/csvToHston pro veřejné použití
+*/
 /**
  * @param {Library} lib
  * @param {Profile} profile
