@@ -48,4 +48,7 @@
 |    14 | AutoFX Fee                              | autoFxFee          |
 |    15 | Transaction and/or third party fees EUR | fees               |
 |    16 | Total EUR                               | total              |
-|    17 | Order ID                                | orderId            |
+|    17 | -                                       | _BUG\*_            |
+|    18 | Order ID                                | orderId            |
+
+\* There is a bug in current (2026-01-04) CSV export: more values then columns

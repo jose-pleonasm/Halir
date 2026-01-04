@@ -22,7 +22,8 @@ export const getSetup = async () => {
 				13: 'AutoFX fee',
 				14: 'Transaction and/or third party fees', // EUR
 				15: 'Total', // EUR
-				16: 'Order ID',
+				16: '', // bug(!)
+				17: 'Order ID',
 			},
 		},
 		output: {

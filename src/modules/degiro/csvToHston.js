@@ -60,7 +60,30 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
 	async function transformer(row) {
 		const id = await uuidV5(row.join(''), uuidNamespace);
 
-		const item = {
+		// TODO: udelat to lepe
+		const hv14729eb4c430850b9929b3d15b054a673 = (row) => ({
+			id,
+			action: getAction(row),
+			datetime: new Date(getDateValue({ timezone, dateFormat }, row[0], row[1])).toISOString(),
+			product: row[2],
+			isin: row[3],
+			referenceExchange: row[4],
+			venue: row[5],
+			quantity: getNumberOrNull(row[6]),
+			price: getNumberOrNull(row[7]),
+			priceCurrency: row[8],
+			localValue: getNumberOrNull(row[9]),
+			localValueCurrency: row[10],
+			value: getNumberOrNull(row[11]),
+			valueCurrency: row[12],
+			exchangeRate: getNumberOrNull(row[13]),
+			fees: getNumberOrNull(row[14]),
+			feesCurrency: row[15],
+			total: getNumberOrNull(row[16]),
+			totalCurrency: row[17],
+			orderId: row[18],
+		});
+		const hv17128931846c45cbfa4d51e08b671500c = (row) => ({
 			id,
 			action: getAction(row),
 			datetime: new Date(getDateValue({ timezone, dateFormat }, row[0], row[1])).toISOString(),
@@ -80,10 +103,10 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
 			feesCurrency: 'EUR',
 			total: getNumberOrNull(row[15]),
 			totalCurrency: 'EUR',
-			// there is a bug in current (2026-01-04) CSV export: more values then columns
-			orderId: row[16 + 1],
-		};
+			orderId: row[17],
+		});
 
+		const item = (row.length === 19 ? hv14729eb4c430850b9929b3d15b054a673 : hv17128931846c45cbfa4d51e08b671500c)(row);
 		return {
 			...item,
 			note: getNote(item),
