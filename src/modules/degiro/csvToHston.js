@@ -60,7 +60,7 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
 	async function transformer(row) {
 		const id = await uuidV5(row.join(''), uuidNamespace);
 
-		// TODO: udelat to lepe
+		// TODO: udělat podporu různých verzí/formátů lépe
 		const hv14729eb4c430850b9929b3d15b054a673 = (row) => ({
 			id,
 			action: getAction(row),
@@ -83,7 +83,30 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
 			totalCurrency: row[17],
 			orderId: row[18],
 		});
+		// TODO: zanalyzovat a případně zavést do výpočtu autoFxFee
 		const hv17128931846c45cbfa4d51e08b671500c = (row) => ({
+			id,
+			action: getAction(row),
+			datetime: new Date(getDateValue({ timezone, dateFormat }, row[0], row[1])).toISOString(),
+			product: row[2],
+			isin: row[3],
+			referenceExchange: row[4],
+			venue: row[5],
+			quantity: getNumberOrNull(row[6]),
+			price: getNumberOrNull(row[7]),
+			priceCurrency: row[8],
+			localValue: getNumberOrNull(row[9]),
+			localValueCurrency: row[10],
+			value: getNumberOrNull(row[11]),
+			valueCurrency: 'EUR',
+			exchangeRate: getNumberOrNull(row[12]),
+			fees: getNumberOrNull(row[14]),
+			feesCurrency: 'EUR',
+			total: getNumberOrNull(row[15]),
+			totalCurrency: 'EUR',
+			orderId: row[16],
+		});
+		const hv17128931846c45cbfa4d51e08b671500cWithBug = (row) => ({
 			id,
 			action: getAction(row),
 			datetime: new Date(getDateValue({ timezone, dateFormat }, row[0], row[1])).toISOString(),
@@ -106,7 +129,13 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
 			orderId: row[17],
 		});
 
-		const item = (row.length === 19 ? hv14729eb4c430850b9929b3d15b054a673 : hv17128931846c45cbfa4d51e08b671500c)(row);
+		const item = (
+			row.length === 19
+				? hv14729eb4c430850b9929b3d15b054a673
+				: row.length === 18
+					? hv17128931846c45cbfa4d51e08b671500cWithBug
+					: hv17128931846c45cbfa4d51e08b671500c
+		)(row);
 		return {
 			...item,
 			note: getNote(item),
