@@ -99,7 +99,8 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
 			value: getNumberOrNull(row[11]),
 			valueCurrency: 'EUR',
 			exchangeRate: getNumberOrNull(row[12]),
-			// TODO: zanalyzovat autoFxFee a případně ho přidat do fees
+			// TODO: zanalyzovat autoFxFee a
+			// případně ho přidat do fees, nebo dopsat do dokumentace (@see HSTONItem) nebo něco
 			autoFxFee: getNumberOrNull(row[13]),
 			fees: getNumberOrNull(row[14]),
 			feesCurrency: 'EUR',
