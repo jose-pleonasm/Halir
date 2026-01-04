@@ -1,3 +1,5 @@
+# Degiro transactions columns mapping
+
 ## Date,Time,Product,ISIN,Reference,Venue,Quantity,Price,,Local value,,Value,,Exchange rate,Transaction and/or third,,Total,,Order ID
 
 `hv14729eb4c430850b9929b3d15b054a673`
@@ -41,9 +43,9 @@
 |     9 |                                         | priceCurrency      |
 |    10 | Local value                             | localValue         |
 |    11 |                                         | localValueCurrency |
-|    12 | Value EUR                               | valueEur           |
+|    12 | Value EUR                               | value              |
 |    13 | Exchange rate                           | exchangeRate       |
 |    14 | AutoFX Fee                              | autoFxFee          |
-|    15 | Transaction and/or third party fees EUR | feesEur            |
-|    16 | Total EUR                               | totalEur           |
+|    15 | Transaction and/or third party fees EUR | fees               |
+|    16 | Total EUR                               | total              |
 |    17 | Order ID                                | orderId            |

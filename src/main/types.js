@@ -49,7 +49,24 @@
  * @property {string} columnSeparator
  * @property {Object.<string, Ticker>} tickerMap
  * @property {string} fileEncoding
- * @property {string} columns
+ * @property {string} columns Values:
+ * - date
+ * - time
+ * - product
+ * - isin
+ * - referenceExchange
+ * - venue
+ * - quantity
+ * - price
+ * - priceCurrency
+ * - localValue
+ * - localValueCurrency
+ * - value
+ * - exchangeRate
+ * - autoFxFee
+ * - fees
+ * - total
+ * - orderId
  * @property {string} overviewColumns
  * @property {string} locales
  * @property {string} timezone
@@ -75,7 +92,7 @@
  * @property {string} datetime Date as a string value in ISO format.
  * @property {string} product
  * @property {string} isin
- * @property {string} exchangeReference
+ * @property {string} referenceExchange
  * @property {string} venue
  * @property {number | null} quantity
  * @property {number | null} price

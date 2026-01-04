@@ -16,7 +16,7 @@ export const getConfig = () => {
 		fileEncoding: process.env.FILE_ENCODING || 'utf8',
 		columns:
 			process.env.COLUMNS ||
-			'date,time,product,isin,exchangeReference,venue,quantity,price,priceCurrency,localValue,localValueCurrency,value,valueCurrency,exchangeRate,fees,feesCurrency,total,totalCurrency,orderId', // TODO: nebere se v potaz (na vstupu)
+			'date,time,product,isin,referenceExchange,venue,quantity,price,priceCurrency,localValue,localValueCurrency,valueEur,exchangeRate,autoFxFee,feesEur,totalEur,orderId', // TODO: nebere se v potaz (na vstupu)
 		overviewColumns:
 			process.env.OVERVIEW_COLUMNS ||
 			'isin,product,quantity,totalLocalValue,totalLocalValueCurrency,totalValue,totalValueCurrency,totalFees,totalFeesCurrency,totalTotal,totalTotalCurrency',

@@ -6,7 +6,7 @@
 	"time": "Time",
 	"product": "Product",
 	"isin": "ISIN",
-	"exchangeReference": "Exchange",
+	"referenceExchange": "Exchange",
 	"venue": "Venue",
 	"quantity": "Quantity",
 	"price": "Price",

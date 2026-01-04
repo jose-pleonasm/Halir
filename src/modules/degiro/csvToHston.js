@@ -66,7 +66,7 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
 			datetime: new Date(getDateValue({ timezone, dateFormat }, row[0], row[1])).toISOString(),
 			product: row[2],
 			isin: row[3],
-			exchangeReference: row[4],
+			referenceExchange: row[4],
 			venue: row[5],
 			quantity: getNumberOrNull(row[6]),
 			price: getNumberOrNull(row[7]),
@@ -74,13 +74,14 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
 			localValue: getNumberOrNull(row[9]),
 			localValueCurrency: row[10],
 			value: getNumberOrNull(row[11]),
-			valueCurrency: row[12],
-			exchangeRate: getNumberOrNull(row[13]),
+			valueCurrency: 'EUR',
+			exchangeRate: getNumberOrNull(row[12]),
 			fees: getNumberOrNull(row[14]),
-			feesCurrency: row[15],
-			total: getNumberOrNull(row[16]),
-			totalCurrency: row[17],
-			orderId: row[18],
+			feesCurrency: 'EUR',
+			total: getNumberOrNull(row[15]),
+			totalCurrency: 'EUR',
+			// there is a bug in current (2026-01-04) CSV export: more values then columns
+			orderId: row[16 + 1],
 		};
 
 		return {
