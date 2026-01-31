@@ -153,7 +153,14 @@ const createTransformer = ({ uuidV5 }, { uuidNamespace, timezone, dateFormat }) 
  */
 async function makeHston(lib, rows, options) {
 	const transform = createTransformer(lib, options);
-	return (await Promise.all(rows.map(transform))).sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+	return (await Promise.all(rows.map(transform))).sort((a, b) => {
+		const result = new Date(a.datetime) - new Date(b.datetime);
+		if (result !== 0) {
+			return result;
+		}
+
+		return a.product.localeCompare(b.product, options.locales);
+	});
 }
 
 /**

@@ -20,8 +20,8 @@ export async function csvToHston(lib, profile, config, csv) {
 		throw new InvalidInputError('', { source: csvToHston.name, value: csv });
 	}
 
-	const { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat } = config;
+	const { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat, locales } = config;
 
 	const module = await import(`../modules/${profile}/index.js`);
-	return module.csvToHston(lib, csv, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat });
+	return module.csvToHston(lib, csv, { lineSeparator, columnSeparator, uuidNamespace, timezone, dateFormat, locales });
 }
