@@ -30,9 +30,9 @@
     "test:browser": "vitest --config vitest.config.browser.js"
   },
   "devDependencies": {
-    "@vitest/browser": "^3.0.5",
+    "@vitest/browser": "^4.1.10",
     "playwright": "^1.50.1",
     "prettier": "^3.4.2",
-    "vitest": "^3.0.5"
+    "vitest": "^4.1.10"
   }
 }
